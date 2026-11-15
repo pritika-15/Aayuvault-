@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AayuVault – Health Dashboard & AI Analyzer</title>
+  <link rel="stylesheet" href="../assets/css/dashboard.css?v=5" />
+  <link rel="stylesheet" href="../assets/css/ai_report_modal.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo-box" style="display:flex; justify-content:center; align-items:center;">
+      <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="33">
+        <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGrad)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <clipPath id="halfClip">
+          <rect x="4" y="2" width="26" height="68"/>
+        </clipPath>
+        <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGrad)" clip-path="url(#halfClip)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <path d="M30 20 L30 50 M18 35 L42 35" stroke="white" stroke-width="4" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="shieldGrad" x1="4" y1="2" x2="56" y2="68" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#C5A74C"/>
+            <stop offset="100%" stop-color="#8B6914"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <span class="brand-name">AayuVault</span>
+  </div>
+  <div class="nav-right">
+    <!-- QUICK NAV LINKS -->
+    <button class="abha-btn" style="background:#ffffff; color:#0d1b2a; border:1px solid #e5dbc6;" onclick="window.location.href='directory.html'">
+      <i class="fa-solid fa-stethoscope" style="color:#c49a2a;"></i>
+      <span>Doctors &amp; Facilities</span>
+    </button>
+    <button class="abha-btn" style="background:#ffffff; color:#0d1b2a; border:1px solid #e5dbc6;" onclick="window.location.href='records.html'">
+      <i class="fa-solid fa-file-medical" style="color:#c49a2a;"></i>
+      <span>Records</span>
+    </button>
+    <button class="abha-btn" style="background:#ffffff; color:#0d1b2a; border:1px solid #e5dbc6;" onclick="window.location.href='analytics.html'">
+      <i class="fa-solid fa-chart-line" style="color:#c49a2a;"></i>
+      <span>AI Analytics</span>
+    </button>
+    <!-- AADHAAR LINK BUTTON -->
+    <button class="abha-btn" id="navAadhaarBtn" style="background: linear-gradient(130deg, #c9973a, #e0b05a); color:#fff; font-weight:700;" onclick="openAadhaarModal()" title="Link by Aadhaar OTP">
+      <i class="fa-solid fa-fingerprint"></i>
+      <span id="aadhaarBtnLabel">Link by Aadhaar</span>
+    </button>
+    <!-- ABHA LINK BUTTON -->
+    <button class="abha-btn" onclick="openAbhaModal()">
+      <i class="fa-solid fa-link"></i>
+      <span>Link ABHA</span>
+    </button>
+    <!-- QR BUTTON -->
+    <button class="abha-btn" style="background: linear-gradient(130deg, var(--teal), #00b3a1);" onclick="openQrModal()">
+      <i class="fa-solid fa-qrcode"></i>
+      <span>My QR</span>
+    </button>
+    <button class="icon-btn" onclick="window.location.href='appointment.html'" title="Appointments"><i class="fa-solid fa-calendar-check"></i></button>
+    <button class="icon-btn" onclick="window.location.href='remainder.html'" title="Reminders"><i class="fa-solid fa-bell"></i></button>
+    <a href="profile.html" class="avatar" style="display:flex; align-items:center; justify-content:center; text-decoration:none;" title="My Profile">
+      <i class="fa-solid fa-circle-user" style="font-size: 36px; color: #C9A84C;"></i>
+    </a>
+  </div>
+</nav>
+
+<!-- ===== DASHBOARD ===== -->
+<main class="dashboard">
+
+  <!-- LEFT PANEL -->
+  <aside class="left-panel">
+
+    <!-- Aadhaar Identity Verification Card -->
+    <div class="card" id="aadhaarDashboardCard" style="background: linear-gradient(145deg, #ffffff, #fdfbf7); border: 1.5px solid #ebd9b6; margin-bottom: 16px;">
+      <div class="card-header" style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="font-size:14px; font-weight:700; color:var(--navy); display:flex; align-items:center; gap:8px;">
+          <i class="fa-solid fa-fingerprint" style="color:var(--gold); font-size:16px;"></i> Aadhaar Identity
+        </h2>
+        <span class="ekyc-verified-pill" id="dashboardAadhaarPill" style="font-size:10px; padding:2px 8px; background:#fff3cd; color:#856404; border-color:#ffeeba;">
+          Not Linked
+        </span>
+      </div>
+      <p style="font-size:12px; color:var(--txt-sec); margin-bottom:12px; line-height:1.4;" id="dashboardAadhaarDesc">
+        Authenticate with UIDAI 12-digit Aadhaar OTP for instant e-KYC health record linking.
+      </p>
+      <button class="btn-gold w-full" id="btnDashboardLinkAadhaar" onclick="openAadhaarModal()" style="display:flex; align-items:center; justify-content:center; gap:6px; font-size:13px; padding:9px 14px;">
+        <i class="fa-solid fa-fingerprint"></i> <span>Link by Aadhaar</span>
+      </button>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Key Vital Metrics</h2>
+        <button class="pill-btn" onclick="AayuAIReportModal.showFromRecordId(1)">AI Health Gauge</button>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-tile">
+          <div class="m-icon red"><i class="fa-solid fa-heart-pulse"></i></div>
+          <div class="m-info">
+            <span class="m-label">Blood Pressure</span>
+            <span class="m-value" id="bp">—</span>
+          </div>
+        </div>
+        <div class="metric-tile">
+          <div class="m-icon pink"><i class="fa-solid fa-heart"></i></div>
+          <div class="m-info">
+            <span class="m-label">Heart Rate</span>
+            <span class="m-value" id="hr">—</span>
+          </div>
+        </div>
+        <div class="metric-tile">
+          <div class="m-icon blue"><i class="fa-solid fa-droplet"></i></div>
+          <div class="m-info">
+            <span class="m-label">SpO2 Level</span>
+            <span class="m-value" id="spo2">—</span>
+          </div>
+        </div>
+        <div class="metric-tile">
+          <div class="m-icon green"><i class="fa-solid fa-flask"></i></div>
+          <div class="m-info">
+            <span class="m-label">Lab Health Status</span>
+            <span class="m-value" id="labs">—</span>
+          </div>
+        </div>
+      </div>
+      <div class="metric-tile solo" style="cursor:pointer;" onclick="window.location.href='records.html'">
+        <div class="m-icon teal"><i class="fa-solid fa-vials"></i></div>
+        <div class="m-info">
+          <span class="m-label">Verified Reports</span>
+          <span class="m-value" id="labs2">4 Reports</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medical Summary -->
+    <div class="card summary-card">
+      <button class="btn-gold w-full" onclick="window.location.href='records.html'">Active Health Profiles</button>
+      <table class="sum-table">
+        <thead>
+          <tr><th>Identified Condition</th><th>Category</th></tr>
+        </thead>
+        <tbody id="summaryBody">
+          <tr><td colspan="2" class="muted-center">Loading health conditions...</td></tr>
+        </tbody>
+      </table>
+      <button class="btn-gold w-full" onclick="window.location.href='analytics.html'">View AI Trend Analytics</button>
+    </div>
+
+  </aside>
+
+  <!-- CENTER PANEL -->
+  <section class="center-panel">
+
+    <!-- Upload -->
+    <div class="card">
+      <h2 class="section-title center"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--gold);margin-right:8px;"></i> Instant AI Report Analyzer</h2>
+      <p class="section-sub center">Drag and drop any lab report (PDF, JPG, PNG, TXT) for instant clinical extraction & biomarker scoring.</p>
+      <div class="drop-zone" id="dropZone"
+           ondragover="onDragOver(event)"
+           ondragleave="onDragLeave(event)"
+           ondrop="onDrop(event)"
+           onclick="document.getElementById('fileInput').click()">
+        <i class="fa-solid fa-cloud-arrow-up drop-icon"></i>
+        <p class="drop-label">Drop Medical Report Here</p>
+        <p class="drop-hint">or click to browse from device (PDF, JPG, PNG, TXT)</p>
+        <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.txt" style="display:none" onchange="onFileSelect(event)"/>
+      </div>
+      <div id="uploadStatus" class="upload-msg hidden"></div>
+    </div>
+
+    <!-- Verified Doctors & Medical Facilities Showcase Card -->
+    <div class="card" style="background: linear-gradient(135deg, #ffffff, #fdfbf7); border: 1.5px solid #ebd9b6;">
+      <div class="row-between" style="margin-bottom: 10px;">
+        <h2 class="section-title" style="margin-bottom:0; font-size:15px; display:flex; align-items:center; gap:8px;">
+          <i class="fa-solid fa-stethoscope" style="color:var(--gold);"></i> Verified Doctors &amp; Medical Facilities
+        </h2>
+        <span class="badge-gold" style="font-size:11px; padding:2px 8px; border-radius:12px; background:var(--gold-bg); color:var(--gold); font-weight:700;">Directory</span>
+      </div>
+      <p style="font-size:12.5px; color:var(--txt-sec); margin-bottom:14px; line-height:1.4;">
+        Explore certified specialists, hospitals, clinics, and diagnostic centres. Manage appointments while maintaining complete patient ownership of your health records.
+      </p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn-gold" style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px; font-size:13px; padding:10px 16px;" onclick="window.location.href='directory.html'">
+          <i class="fa-solid fa-user-doctor"></i> <span>Browse Doctors &amp; Facilities</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="card">
+      <div class="row-between">
+        <h2 class="section-title"><i class="fa-solid fa-timeline" style="color:var(--gold);margin-right:8px;"></i> Your Health Timeline</h2>
+        <button class="btn-outline" onclick="window.location.href='records.html'">View All Records</button>
+      </div>
+      <div id="timelineContent" class="muted-center">Loading timeline...</div>
+    </div>
+
+  </section>
+
+  <!-- RIGHT PANEL -->
+  <aside class="right-panel">
+
+    <!-- Appointments -->
+    <div class="card">
+      <div class="row-between" style="margin-bottom:12px;">
+        <h2 class="section-title" style="margin-bottom:0;">Appointments</h2>
+        <button class="btn-outline" style="padding:4px 10px;font-size:11px;" onclick="window.location.href='appointment.html'">+ Book</button>
+      </div>
+      <div class="week-row">
+        <span>Su</span><span>Mo</span><span>Tu</span>
+        <span>We</span><span class="today">Th</span>
+        <span>Fr</span><span>Sa</span>
+      </div>
+      <div id="apptContent" class="muted-center">Loading appointments...</div>
+    </div>
+
+    <!-- AI Insights -->
+    <div class="card">
+      <h2 class="section-title"><i class="fa-solid fa-brain" style="color:var(--gold);margin-right:6px;"></i> AayuInsights AI Analysis</h2>
+      <div id="insightsContent" class="insights-empty">
+        <i class="fa-solid fa-brain insights-icon"></i>
+        <p>Loading AI clinical findings...</p>
+      </div>
+      <button class="btn-navy w-full mt-8" id="btnOpenAIReport" onclick="openLatestReportModal()">
+        <i class="fa-solid fa-sparkles"></i> Open Full AI Clinical Report
+      </button>
+    </div>
+
+  </aside>
+</main>
+
+<!-- ===== ABHA MODAL ===== -->
+<div class="modal-overlay hidden" id="abhaModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-id-card"></i> Link ABHA ID</h3>
+      <button class="close-btn" onclick="closeAbhaModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <!-- Direct Aadhaar Shortcut Banner -->
+      <div style="background:#fef9ed; border:1px solid #ebd9b6; border-radius:10px; padding:12px; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <div>
+          <div style="font-size:13px; font-weight:700; color:#855c14; display:flex; align-items:center; gap:6px;">
+            <i class="fa-solid fa-fingerprint" style="color:var(--gold); font-size:15px;"></i> Link via Aadhaar OTP
+          </div>
+          <div style="font-size:11.5px; color:#a1782f; margin-top:2px;">
+            Don't know your ABHA ID? Use 12-digit Aadhaar instead.
+          </div>
+        </div>
+        <button type="button" class="btn-gold" style="padding:6px 12px; font-size:12px; white-space:nowrap;" onclick="closeAbhaModal(); openAadhaarModal();">
+          Link by Aadhaar &rarr;
+        </button>
+      </div>
+
+      <p class="modal-desc">Or enter your Ayushman Bharat Health Account (ABHA) details below:</p>
+
+      <label class="form-label">ABHA ID / Health ID</label>
+      <input type="text" id="abhaInput" class="form-input" placeholder="12-3456-7890-1234 or name@abdm"/>
+
+      <label class="form-label">Registered Mobile Number</label>
+      <input type="tel" id="mobileInput" class="form-input" placeholder="+91 XXXXX XXXXX"/>
+
+      <div id="otpSection" class="hidden">
+        <label class="form-label">Enter OTP</label>
+        <input type="text" id="otpInput" class="form-input" placeholder="6-digit OTP" maxlength="6"/>
+      </div>
+
+      <div id="abhaMsg" class="abha-msg hidden"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-outline" onclick="closeAbhaModal()">Cancel</button>
+      <button class="btn-gold" id="abhaActionBtn" onclick="handleAbhaAction()">
+        <i class="fa-solid fa-paper-plane"></i> Send OTP
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QR MODAL ===== -->
+<div class="modal-overlay hidden" id="qrModal">
+  <div class="modal-box" style="text-align: center;">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-qrcode"></i> My Health QR</h3>
+      <button class="close-btn" onclick="closeQrModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body" style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
+      <p class="modal-desc">Scan this QR code to quickly access my medical profile.</p>
+      <div id="qrcode" style="margin: 20px 0; padding: 10px; background: white; border-radius: 8px;"></div>
+      <p style="font-size: 13px; color: var(--txt-sec);">Patient ID: AAYU-123456</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-outline w-full" onclick="closeQrModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AADHAAR OTP MODAL ===== -->
+<div class="modal-overlay hidden" id="aadhaarModal">
+  <div class="aadhaar-modal-box">
+    
+    <!-- Modal Header -->
+    <div class="modal-head">
+      <h3>
+        <i class="fa-solid fa-fingerprint" style="color:var(--gold);"></i> 
+        <span>Aadhaar OTP Authentication</span>
+      </h3>
+      <button class="close-btn" onclick="closeAadhaarModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Multi-Step Progress Stepper -->
+    <div class="aadhaar-stepper" id="aadhaarStepper">
+      <div class="step-item active" id="stepIndicator1">
+        <div class="step-num">1</div>
+        <span>Aadhaar ID</span>
+      </div>
+      <div class="step-divider" id="stepDivider1"></div>
+      <div class="step-item" id="stepIndicator2">
+        <div class="step-num">2</div>
+        <span>Verify OTP</span>
+      </div>
+      <div class="step-divider" id="stepDivider2"></div>
+      <div class="step-item" id="stepIndicator3">
+        <div class="step-num">3</div>
+        <span>Verified e-KYC</span>
+      </div>
+    </div>
+
+    <!-- STEP 1: Enter 12-Digit Aadhaar -->
+    <div id="aadhaarStep1" class="modal-body">
+      <p class="modal-desc">
+        Authenticate your patient identity via UIDAI Aadhaar One-Time Password (OTP) verification service.
+      </p>
+
+      <label class="form-label" for="aadhaarNumInput">12-Digit Aadhaar Number</label>
+      <div class="aadhaar-input-wrapper">
+        <i class="fa-solid fa-id-card aadhaar-icon"></i>
+        <input 
+          type="text" 
+          id="aadhaarNumInput" 
+          class="form-input" 
+          placeholder="XXXX XXXX XXXX" 
+          maxlength="14" 
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- UIDAI Consent Checkbox -->
+      <div class="aadhaar-consent-box">
+        <input type="checkbox" id="aadhaarConsentCheckbox" checked />
+        <label for="aadhaarConsentCheckbox" class="consent-text">
+          <strong>UIDAI Authentication Consent:</strong> I hereby give my voluntary consent to AayuVault to authenticate my identity through UIDAI Aadhaar OTP verification to link my verified patient records.
+        </label>
+      </div>
+
+      <div id="aadhaarMsg1" class="abha-msg hidden"></div>
+
+      <div class="modal-foot" style="padding: 16px 0 0 0; margin-top: 10px;">
+        <button class="btn-outline" onclick="closeAadhaarModal()">Cancel</button>
+        <button class="btn-gold" id="btnSendAadhaarOtp" onclick="sendAadhaarOtp()">
+          <i class="fa-solid fa-paper-plane"></i> Send OTP
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Enter 6-Digit OTP -->
+    <div id="aadhaarStep2" class="modal-body hidden">
+      <p class="modal-desc" id="aadhaarOtpNotice">
+        Enter the 6-digit verification code sent to your Aadhaar registered mobile number.
+      </p>
+
+      <!-- 6-Digit OTP Boxes -->
+      <label class="form-label" style="text-align: center;">Enter 6-Digit Security OTP</label>
+      <div class="otp-boxes-wrapper">
+        <input type="text" maxlength="1" class="otp-box-digit" data-index="0" autofocus inputmode="numeric" />
+        <input type="text" maxlength="1" class="otp-box-digit" data-index="1" inputmode="numeric" />
+        <input type="text" maxlength="1" class="otp-box-digit" data-index="2" inputmode="numeric" />
+        <input type="text" maxlength="1" class="otp-box-digit" data-index="3" inputmode="numeric" />
+        <input type="text" maxlength="1" class="otp-box-digit" data-index="4" inputmode="numeric" />
+        <input type="text" maxlength="1" class="otp-box-digit" data-index="5" inputmode="numeric" />
+      </div>
+
+      <!-- Expiration Countdown & Resend Link -->
+      <div class="otp-meta-row">
+        <div class="otp-countdown">
+          <i class="fa-regular fa-clock"></i> Expires in: <span id="aadhaarTimerCount">10:00</span>
+        </div>
+        <div>
+          <button class="btn-resend-link" id="btnResendAadhaarOtp" onclick="resendAadhaarOtp()" disabled>
+            Resend OTP (<span id="resendCountdown">60</span>s)
+          </button>
+        </div>
+      </div>
+
+      <!-- Demo OTP Testing Helper -->
+      <div class="demo-otp-banner" id="aadhaarDemoBanner">
+        <div>
+          <i class="fa-solid fa-flask" style="margin-right:4px;"></i>
+          <strong>Demo Test OTP:</strong> <span id="demoOtpDisplay">123456</span>
+        </div>
+        <button class="btn-autofill" onclick="autofillAadhaarDemoOtp()">Autofill OTP</button>
+      </div>
+
+      <div id="aadhaarMsg2" class="abha-msg hidden"></div>
+
+      <div class="modal-foot" style="padding: 16px 0 0 0; margin-top: 10px;">
+        <button class="btn-outline" onclick="goToAadhaarStep(1)">
+          <i class="fa-solid fa-arrow-left"></i> Change Aadhaar
+        </button>
+        <button class="btn-gold" id="btnVerifyAadhaarOtp" onclick="verifyAadhaarOtp()">
+          <i class="fa-solid fa-shield-check"></i> Verify & Authenticate
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Verified Digital e-KYC Card -->
+    <div id="aadhaarStep3" class="modal-body hidden">
+      <div class="ekyc-card">
+        <div class="ekyc-header">
+          <div class="ekyc-title-group">
+            <div class="ekyc-emblem"><i class="fa-solid fa-fingerprint"></i></div>
+            <div>
+              <h4 style="font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 2px;">UIDAI Aadhaar e-KYC</h4>
+              <p style="font-size: 11.5px; color: var(--txt-sec);">Digitally Verified Health Identity</p>
+            </div>
+          </div>
+          <div class="ekyc-verified-pill">
+            <i class="fa-solid fa-circle-check"></i> Verified
+          </div>
+        </div>
+
+        <div class="ekyc-grid">
+          <div class="ekyc-item">
+            <span class="ekyc-label">Full Name</span>
+            <span class="ekyc-val" id="ekycName">Rajesh Kumar Sharma</span>
+          </div>
+          <div class="ekyc-item">
+            <span class="ekyc-label">Aadhaar Number</span>
+            <span class="ekyc-val" id="ekycAadhaar">XXXX-XXXX-8912</span>
+          </div>
+          <div class="ekyc-item">
+            <span class="ekyc-label">Date of Birth</span>
+            <span class="ekyc-val" id="ekycDob">15/08/1988</span>
+          </div>
+          <div class="ekyc-item">
+            <span class="ekyc-label">Gender</span>
+            <span class="ekyc-val" id="ekycGender">Male</span>
+          </div>
+          <div class="ekyc-item full-width">
+            <span class="ekyc-label">Registered Address</span>
+            <span class="ekyc-val" id="ekycAddress">H-12, Green Park Main, New Delhi - 110016</span>
+          </div>
+        </div>
+
+        <div class="ekyc-security-footer">
+          <span><i class="fa-solid fa-lock" style="color:var(--green); margin-right:4px;"></i> 256-Bit Encrypted e-KYC</span>
+          <span id="ekycTimestamp">Verified on Today</span>
+        </div>
+      </div>
+
+      <div class="modal-foot" style="padding: 16px 0 0 0; margin-top: 14px;">
+        <button class="btn-gold w-full" onclick="closeAadhaarModal()">
+          <i class="fa-solid fa-circle-check"></i> Done & Return to Dashboard
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="../assets/js/ai_report_modal.js"></script>
+<script src="../assets/js/dashboard.js?v=5"></script>
+<script src="app.js?v=1776173102.35606"></script>
+</body>
+</html>

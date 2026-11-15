@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AayuVault – Appointment Booking</title>
+  <link rel="stylesheet" href="../assets/css/appointment.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="brand-logo" style="display:flex; justify-content:center; align-items:center;">
+        <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="38">
+          <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradApp)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+          <clipPath id="halfClipApp">
+            <rect x="4" y="2" width="26" height="68"/>
+          </clipPath>
+          <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradApp)" clip-path="url(#halfClipApp)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+          <path d="M30 20 L30 50 M18 35 L42 35" stroke="white" stroke-width="4" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="shieldGradApp" x1="4" y1="2" x2="56" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#C5A74C"/>
+              <stop offset="100%" stop-color="#8B6914"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="brand-name"><strong>Aayu</strong>Vault</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Home</a></li>
+      <li><a href="directory.html">Doctors &amp; Facilities</a></li>
+      <li><a href="records.html">Records</a></li>
+      <li><a href="analytics.html">AI Analytics</a></li>
+      <li><a href="appointment.html" class="active">Appointments</a></li>
+      <li><a href="remainder.html">Reminders</a></li>
+      <li><a href="profile.html" class="nav-profile" style="text-decoration:none;"><i class="fa-regular fa-user" style="margin-right:5px;"></i> My Profile</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="nav-grid-btn" aria-label="Grid menu">
+        <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      </button>
+      <button class="nav-notif-btn" aria-label="Notifications" onclick="window.location.href='remainder.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="notif-dot"></span>
+      </button>
+      <div class="nav-avatar" style="display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="window.location.href='profile.html'">
+        <i class="fa-solid fa-circle-user" style="font-size: 36px; color: #C9A84C;"></i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN LAYOUT -->
+  <main class="dashboard">
+
+    <!-- LEFT PANEL: Key Metrics -->
+    <aside class="panel panel-left" id="key-metrics">
+      <div class="panel-header">
+        <h2>Key Metrics</h2>
+        <button class="btn-tag">Key Metrics</button>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon icon-bp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div>
+            <div class="metric-label">Blood Pressure</div>
+            <div class="metric-value" id="bp-value">—</div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon icon-hr">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <div class="metric-label">Heart Rate</div>
+            <div class="metric-value" id="hr-value">—</div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon icon-drop">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6 8 4 12 4 15a8 8 0 0 0 16 0c0-3-2-7-8-13z"/></svg>
+          </div>
+          <div>
+            <div class="metric-label">Heart Rate</div>
+            <div class="metric-value" id="hr2-value">—</div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon icon-lab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+          </div>
+          <div>
+            <div class="metric-label">Recent Labs</div>
+            <div class="metric-value status-normal" id="labs-value">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-card full-width">
+        <div class="metric-icon icon-lab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v12a6 6 0 0 0 12 0V3"/><line x1="4" y1="3" x2="20" y2="3"/></svg>
+        </div>
+        <div>
+          <div class="metric-label">Recent Labs</div>
+          <div class="metric-value status-normal" id="recentlabs-value">—</div>
+        </div>
+      </div>
+
+      <button class="btn-summary">Medical Summary</button>
+
+      <div class="conditions-table">
+        <div class="table-head">
+          <span>Condition</span>
+          <span>Category</span>
+        </div>
+        <div id="conditions-list">
+          <!-- Populated via JS/PHP -->
+          <div class="table-row skeleton-row"><span></span><span></span></div>
+          <div class="table-row skeleton-row"><span></span><span></span></div>
+          <div class="table-row skeleton-row"><span></span><span></span></div>
+          <div class="table-row skeleton-row"><span></span><span></span></div>
+        </div>
+      </div>
+
+      <button class="btn-learn">Learn More</button>
+    </aside>
+
+    <!-- CENTER PANEL: Booking Form -->
+    <section class="panel panel-center">
+      <h1>Book Your Medical Appointment</h1>
+
+      <div class="health-context">
+        <span class="context-label">Current Health Context</span>
+        <div class="context-tags" id="health-context-tags">
+          <!-- Tags fetched dynamically -->
+        </div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="booking-step">
+        <label class="step-label">1. Select Condition/Concern</label>
+        <div class="select-wrapper">
+          <select id="condition-select">
+            <option value="">Loading...</option>
+          </select>
+          <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="booking-step">
+        <label class="step-label">2. Choose Healthcare Provider</label>
+        <div class="provider-search-bar">
+          <div class="search-input-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="provider-search" placeholder="Search by doctor, specialty, facility, city..." />
+          </div>
+          <div class="select-wrapper compact">
+            <select id="filter-select"><option value="">Filter by</option></select>
+            <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="select-wrapper compact">
+            <select id="location-select"><option value="">All Zone</option></select>
+            <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+
+        <div class="providers-list" id="providers-list">
+          <!-- Providers loaded dynamically -->
+          <div class="provider-card skeleton"></div>
+          <div class="provider-card skeleton"></div>
+          <div class="provider-card skeleton"></div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="booking-step">
+        <label class="step-label">3. Select Date &amp; Time</label>
+        <div class="calendar-row" id="calendar-dates">
+          <!-- Dates injected by JS -->
+        </div>
+        <div class="time-slots" id="time-slots">
+          <!-- Time slots injected by JS -->
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="booking-step">
+        <label class="step-label">4. Confirm &amp; Review</label>
+        <div class="booking-actions">
+          <button class="btn-cancel" id="btn-cancel">Cancel</button>
+          <button class="btn-schedule" id="btn-schedule">Schedule Appointment</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: Upcoming -->
+    <aside class="panel panel-right">
+      <div class="upcoming-section">
+        <h2>Upcoming</h2>
+        <div class="mini-calendar" id="mini-calendar">
+          <!-- Injected by JS -->
+        </div>
+        <div class="upcoming-card" id="upcoming-appointment">
+          <div class="upcoming-title">Appointment to Book</div>
+          <div class="upcoming-time" id="upcoming-time">—</div>
+        </div>
+        <div class="upcoming-card future" id="future-visit">
+          <div class="upcoming-title">Future Visit</div>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <script src="../assets/js/reminders_alerts.js?v=3.0"></script>
+  <script src="../assets/js/appointment.js?v=3.0"></script>
+  <script src="app.js?v=3.0"></script>
+</body>
+</html>

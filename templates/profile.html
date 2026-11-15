@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AayuVault – My Profile</title>
+  <link rel="stylesheet" href="../assets/css/profile.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar">
+    <div class="nav-brand">
+  <div class="brand-icon">
+    <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="38">
+      <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradProf)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+      <clipPath id="halfClipProf">
+        <rect x="4" y="2" width="26" height="68"/>
+      </clipPath>
+      <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradProf)" clip-path="url(#halfClipProf)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+      <path d="M30 20 L30 50 M18 35 L42 35" stroke="white" stroke-width="4" stroke-linecap="round"/>
+      <defs>
+        <linearGradient id="shieldGradProf" x1="4" y1="2" x2="56" y2="68" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#C5A74C"/>
+          <stop offset="100%" stop-color="#8B6914"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+  <span class="brand-name">AayuVault</span>
+</div>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Home</a></li>
+      <li><a href="directory.html">Doctors &amp; Facilities</a></li>
+      <li><a href="records.html">Records</a></li>
+      <li><a href="analytics.html">AI Analytics</a></li>
+      <li><a href="appointment.html">Appointments</a></li>
+      <li><a href="remainder.html">Reminders</a></li>
+      <li><a href="profile.html" class="active"><i class="fa-regular fa-user"></i> My Profile</a></li>
+      <li><a href="auth.html" class="logout-link">Log Out</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO BG ── -->
+  <div class="hero-bg"><div class="hero-overlay"></div></div>
+
+  <!-- ── MAIN LAYOUT ── -->
+  <main class="layout">
+
+    <!-- ── LEFT SIDEBAR ── -->
+    <aside class="sidebar">
+      <!-- Avatar placeholder — no image, no upload button in view mode -->
+      <div class="avatar-box">
+        <div class="avatar-placeholder" id="avatarWrap">
+          <i class="fa-regular fa-user avatar-icon"></i>
+        </div>
+      </div>
+
+      <nav class="side-nav">
+        <a href="#" class="side-link active">
+          <span class="side-indicator"></span>My Profile
+        </a>
+        <a href="#" class="side-link">Family Link</a>
+      </nav>
+    </aside>
+
+    <!-- ── CENTER PANEL ── -->
+    <section class="panel panel-center">
+
+      <!-- Personal Information -->
+      <div class="section-block">
+        <h2 class="section-title">Personal Information</h2>
+
+        <div class="info-row">
+          <span class="info-label">Name</span>
+          <span class="info-value name-value" id="fullName"></span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Gender</span>
+          <span class="info-value" id="gender"></span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Date of Birth</span>
+          <span class="info-value" id="dob"></span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Primary Language</span>
+          <span class="info-value" id="primaryLanguage"></span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Address</span>
+          <span class="info-value address-value" id="address"></span>
+        </div>
+      </div>
+
+      <!-- Account Security -->
+      <div class="section-block">
+        <h2 class="section-title">Account Security</h2>
+
+        <div class="info-row">
+          <span class="info-label">Username</span>
+          <span class="info-value muted" id="username"></span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Password Change</span>
+          <span class="info-value muted">Password: (Encrypted)</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Two-Factor Authentication</span>
+          <span class="info-value" id="twoFAStatus"></span>
+        </div>
+
+        <!-- Login History accordion -->
+        <div class="info-row accordion-row" onclick="toggleLoginHistory()">
+          <span class="info-label">Login History</span>
+          <i class="fa-solid fa-chevron-up" id="loginChevron"></i>
+        </div>
+
+        <div class="login-history-panel open" id="loginHistoryPanel">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Table</th>
+                <th>Last Name</th>
+                <th>Login History</th>
+              </tr>
+            </thead>
+            <tbody id="loginHistoryBody">
+              <!-- Populated by JS via populateLoginHistory() -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── RIGHT PANEL ── -->
+    <aside class="panel panel-right">
+
+      <!-- Emergency Contact -->
+      <div class="section-block">
+        <h2 class="section-title">Emergency Contact</h2>
+        <ul class="ec-list" id="ecList">
+          <!-- Populated by JS via populateEmergencyContact() -->
+        </ul>
+      </div>
+
+      <!-- Authorized Medical Access -->
+      <div class="section-block">
+        <h2 class="section-title">Authorized Medical Access</h2>
+        <p class="section-sub">Manage who can view your vital health data, prioritized by your choice.</p>
+
+        <table class="access-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Date of Birth</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="accessTableBody">
+            <!-- Populated by JS via populateAccessTable() -->
+          </tbody>
+        </table>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- ── TOAST ── -->
+  <div class="toast" id="toast"></div>
+
+<script src="../assets/js/profile.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

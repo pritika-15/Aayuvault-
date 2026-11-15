@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AayuVault – Doctor & Facility Administration</title>
+  <link rel="stylesheet" href="../assets/css/admin_directory.css?v=2"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="38">
+          <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradAdm)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+          <clipPath id="halfClipAdm">
+            <rect x="4" y="2" width="26" height="68"/>
+          </clipPath>
+          <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradAdm)" clip-path="url(#halfClipAdm)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+          <path d="M30 20 L30 50 M18 35 L42 35" stroke="white" stroke-width="4" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="shieldGradAdm" x1="4" y1="2" x2="56" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#C5A74C"/>
+              <stop offset="100%" stop-color="#8B6914"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="brand-name">AayuVault</span>
+      <span class="brand-badge"><i class="fa-solid fa-shield-halved"></i> Admin Portal</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="directory.html"><i class="fa-solid fa-stethoscope"></i> Patient Directory</a></li>
+      <li><a href="records.html"><i class="fa-solid fa-file-medical"></i> Records</a></li>
+      <li><a href="appointment.html"><i class="fa-solid fa-calendar-check"></i> Appointments</a></li>
+      <li><a href="admin_directory.html" class="active"><i class="fa-solid fa-user-gear"></i> Directory Admin</a></li>
+      <li><a href="profile.html"><i class="fa-regular fa-user"></i> Profile</a></li>
+      <li><a href="auth.html" style="color:#fca5a5;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── MAIN CONTAINER ── -->
+  <main class="admin-container">
+
+    <!-- Header -->
+    <div class="admin-header">
+      <div class="admin-title-wrap">
+        <h1><i class="fa-solid fa-hospital-user" style="color:var(--gold);"></i> Doctor &amp; Medical Facility Directory</h1>
+        <p>Maintain verified healthcare practitioners and clinical facilities within the patient-owned AayuVault ecosystem.</p>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn-secondary" onclick="window.location.href='directory.html'">
+          <i class="fa-solid fa-eye"></i> View Patient Directory
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats Summary Grid -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon doc"><i class="fa-solid fa-user-doctor"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="statTotalDocs">—</div>
+          <div class="stat-label">Total Doctors Registered</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon verify"><i class="fa-solid fa-certificate"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="statVerifiedDocs">—</div>
+          <div class="stat-label">Verified Practitioners</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon fac"><i class="fa-solid fa-hospital"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="statTotalFacs">—</div>
+          <div class="stat-label">Medical Facilities</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon active"><i class="fa-solid fa-hospital-user"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="statVerifiedFacs">—</div>
+          <div class="stat-label">Verified Facilities</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" data-tab="doctors">
+        <i class="fa-solid fa-user-doctor"></i> Doctors Management
+        <span class="tab-badge" id="badgeDocCount">0</span>
+      </button>
+      <button class="tab-btn" data-tab="facilities">
+        <i class="fa-solid fa-hospital"></i> Medical Facilities
+        <span class="tab-badge" id="badgeFacCount">0</span>
+      </button>
+    </div>
+
+    <!-- =========================================================
+         SECTION 1: DOCTORS DIRECTORY
+         ========================================================= -->
+    <section id="doctorsSection">
+      <!-- Filter & Action Bar -->
+      <div class="action-bar">
+        <div class="filters-group">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchDocs" class="search-input" placeholder="Search doctor by name, qualification, or code..."/>
+          </div>
+          <select id="filterDocSpecialization" class="filter-select">
+            <option value="">All Specializations</option>
+          </select>
+          <select id="filterDocFacility" class="filter-select">
+            <option value="">All Facilities</option>
+          </select>
+          <select id="filterDocStatus" class="filter-select">
+            <option value="">All Statuses</option>
+            <option value="Verified">Verified</option>
+            <option value="Pending">Pending</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="openAddDoctorModal()">
+          <i class="fa-solid fa-user-plus"></i> Add New Doctor
+        </button>
+      </div>
+
+      <!-- Doctors Table Card -->
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Doctor ID</th>
+                <th>Doctor Name &amp; Credential</th>
+                <th>Specialization &amp; Exp</th>
+                <th>Facility &amp; Location</th>
+                <th>Fee &amp; Schedule</th>
+                <th>Status</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="doctorsTableBody">
+              <!-- Dynamically populated by admin_directory.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SECTION 2: MEDICAL FACILITIES DIRECTORY
+         ========================================================= -->
+    <section id="facilitiesSection" style="display:none;">
+      <!-- Filter & Action Bar -->
+      <div class="action-bar">
+        <div class="filters-group">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchFacs" class="search-input" placeholder="Search facility by name, city, departments, or code..."/>
+          </div>
+          <select id="filterFacType" class="filter-select">
+            <option value="">All Facility Types</option>
+          </select>
+          <input type="text" id="filterFacLocation" class="search-input" style="max-width:180px;" placeholder="Filter City / State..."/>
+          <select id="filterFacStatus" class="filter-select">
+            <option value="">All Statuses</option>
+            <option value="Verified">Verified</option>
+            <option value="Pending">Pending</option>
+            <option value="Suspended">Suspended</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="openAddFacilityModal()">
+          <i class="fa-solid fa-plus"></i> Add Medical Facility
+        </button>
+      </div>
+
+      <!-- Facilities Table Card -->
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Facility ID</th>
+                <th>Facility Name</th>
+                <th>Type</th>
+                <th>Contact Info</th>
+                <th>Doctors</th>
+                <th>Status</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="facilitiesTableBody">
+              <!-- Dynamically populated by admin_directory.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+       MODAL: ADD / EDIT DOCTOR
+       ========================================================= -->
+  <div class="modal-overlay" id="doctorModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="docModalTitle"><i class="fa-solid fa-user-plus"></i> Add Verified Doctor</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="doctorForm">
+        <input type="hidden" id="docId" name="id"/>
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="docDoctorCode">Doctor ID / Code</label>
+              <input type="text" id="docDoctorCode" name="doctor_code" class="form-control" placeholder="e.g. DOC-201 (leave blank to auto-generate)"/>
+            </div>
+            <div class="form-group">
+              <label for="docName">Doctor Full Name *</label>
+              <input type="text" id="docName" name="name" class="form-control" required placeholder="e.g. Dr. Priya Sharma"/>
+            </div>
+            <div class="form-group">
+              <label for="docSpecialization">Specialization *</label>
+              <select id="docSpecialization" name="specialization" class="form-control" required>
+                <!-- Populated via JS -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="docQualification">Qualification *</label>
+              <input type="text" id="docQualification" name="qualification" class="form-control" required placeholder="e.g. MBBS, MD, DM (Cardiology)"/>
+            </div>
+            <div class="form-group">
+              <label for="docExperience">Years of Experience *</label>
+              <input type="number" id="docExperience" name="experience_years" class="form-control" min="0" max="60" required placeholder="e.g. 12"/>
+            </div>
+            <div class="form-group">
+              <label for="docContact">Contact Number *</label>
+              <input type="text" id="docContact" name="contact_number" class="form-control" required placeholder="e.g. +91 98765 43210"/>
+            </div>
+            <div class="form-group">
+              <label for="docEmail">Email Address *</label>
+              <input type="email" id="docEmail" name="email" class="form-control" required placeholder="e.g. doctor@hospital.com"/>
+            </div>
+            <div class="form-group">
+              <label for="docFacilityId">Associated Medical Facility / Hospital</label>
+              <select id="docFacilityId" name="facility_id" class="form-control">
+                <!-- Populated via JS -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="docFee">Consultation Fee (₹ optional)</label>
+              <input type="number" id="docFee" name="consultation_fee" step="50" class="form-control" placeholder="e.g. 1000.00"/>
+            </div>
+            <div class="form-group">
+              <label for="docDays">Available Days *</label>
+              <input type="text" id="docDays" name="available_days" class="form-control" required placeholder="e.g. Mon, Wed, Fri or Monday - Saturday"/>
+            </div>
+            <div class="form-group">
+              <label for="docTime">Available Time Slots *</label>
+              <input type="text" id="docTime" name="available_time" class="form-control" required placeholder="e.g. 09:00 AM - 01:00 PM, 04:00 PM - 07:00 PM"/>
+            </div>
+            <div class="form-group">
+              <label for="docLocation">Location / City *</label>
+              <input type="text" id="docLocation" name="location" class="form-control" required placeholder="e.g. Noida Sector 62, Uttar Pradesh"/>
+            </div>
+            <div class="form-group">
+              <label for="docVerificationStatus">Verification Status</label>
+              <select id="docVerificationStatus" name="verification_status" class="form-control">
+                <option value="Verified">Verified</option>
+                <option value="Pending">Pending Review</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="docIsActive">Active Status</label>
+              <select id="docIsActive" name="is_active" class="form-control">
+                <option value="1">Active (Visible in Directory)</option>
+                <option value="0">Deactivated</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary btn-close-modal">Cancel</button>
+          <button type="submit" class="btn-primary"><i class="fa-solid fa-check"></i> Save Doctor</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL: ADD / EDIT MEDICAL FACILITY
+       ========================================================= -->
+  <div class="modal-overlay" id="facilityModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="facModalTitle"><i class="fa-solid fa-square-plus"></i> Register Medical Facility</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="facilityForm">
+        <input type="hidden" id="facId" name="id"/>
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="facFacilityCode">Facility ID / Code</label>
+              <input type="text" id="facFacilityCode" name="facility_code" class="form-control" placeholder="e.g. FAC-101 (auto-generated if empty)"/>
+            </div>
+            <div class="form-group">
+              <label for="facName">Facility Name *</label>
+              <input type="text" id="facName" name="name" class="form-control" required placeholder="e.g. ABC Multispecialty Hospital"/>
+            </div>
+            <div class="form-group">
+              <label for="facType">Facility Type *</label>
+              <select id="facType" name="type" class="form-control" required>
+                <option value="Hospital">Hospital</option>
+                <option value="Clinic">Clinic</option>
+                <option value="Diagnostic Centre">Diagnostic Centre</option>
+                <option value="Laboratory">Laboratory</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="facCity">City *</label>
+              <input type="text" id="facCity" name="city" class="form-control" required placeholder="e.g. Noida"/>
+            </div>
+            <div class="form-group">
+              <label for="facState">State *</label>
+              <input type="text" id="facState" name="state" class="form-control" required placeholder="e.g. Uttar Pradesh"/>
+            </div>
+            <div class="form-group">
+              <label for="facContact">Contact Number *</label>
+              <input type="text" id="facContact" name="contact_number" class="form-control" required placeholder="e.g. +91 120 4567890"/>
+            </div>
+            <div class="form-group">
+              <label for="facEmail">Official Email *</label>
+              <input type="email" id="facEmail" name="email" class="form-control" required placeholder="e.g. contact@abchospital.com"/>
+            </div>
+            <div class="form-group">
+              <label for="facOpeningHours">Opening Hours *</label>
+              <input type="text" id="facOpeningHours" name="opening_hours" class="form-control" required placeholder="e.g. 24x7 Emergency, OPD: Mon-Sat 08:00 AM - 08:00 PM"/>
+            </div>
+            <div class="form-group full-width">
+              <label for="facAddress">Complete Street Address *</label>
+              <textarea id="facAddress" name="address" class="form-control" required placeholder="e.g. Plot 12, Institutional Area, Sector 62"></textarea>
+            </div>
+            <div class="form-group full-width">
+              <label for="facDepartments">Departments / Clinical Services</label>
+              <textarea id="facDepartments" name="departments" class="form-control" placeholder="e.g. Cardiology, Neurology, Orthopedics, Radiology, 24x7 Pharmacy, ICU"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="facVerificationStatus">Verification Status</label>
+              <select id="facVerificationStatus" name="verification_status" class="form-control">
+                <option value="Verified">Verified</option>
+                <option value="Pending">Pending Review</option>
+                <option value="Suspended">Suspended</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="facIsActive">Active Status</label>
+              <select id="facIsActive" name="is_active" class="form-control">
+                <option value="1">Active</option>
+                <option value="0">Deactivated</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary btn-close-modal">Cancel</button>
+          <button type="submit" class="btn-primary"><i class="fa-solid fa-check"></i> Save Facility</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL: VIEW DOCTOR DETAILS
+       ========================================================= -->
+  <div class="modal-overlay" id="viewDoctorModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-id-card-clip" style="color:var(--gold);"></i> Doctor Credential Profile</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" id="viewDoctorContent">
+        <!-- Populated via JS -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary btn-close-modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL: VIEW FACILITY DETAILS & DOCTORS
+       ========================================================= -->
+  <div class="modal-overlay" id="viewFacilityModal">
+    <div class="modal-box" style="max-width:760px;">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-hospital" style="color:var(--gold);"></i> Medical Facility Profile</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" id="viewFacilityContent">
+        <!-- Populated via JS -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary btn-close-modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div id="adminToast" class="toast-msg"></div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/admin_directory.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,569 @@
+/* ============================================================
+   reminders_alerts.css — AayuVault Reminders & Alerts Section
+   ============================================================ */
+
+/* ── Section Container ── */
+.reminders-section {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.reminders-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.reminders-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reminders-title-wrap h2 {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--navy, #1a2540);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reminders-title-wrap h2 i {
+  color: var(--gold, #c9973a);
+}
+
+.reminders-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-rem-action {
+  background: #ffffff;
+  border: 1px solid #dcd3bf;
+  color: var(--navy, #1a2540);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-rem-action:hover {
+  background: #fdf6ea;
+  border-color: var(--gold, #c9973a);
+  color: var(--gold, #c9973a);
+  transform: translateY(-1px);
+}
+
+.btn-rem-gold {
+  background: linear-gradient(135deg, #c9973a, #e0b05a);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 2px 10px rgba(201, 151, 58, 0.3);
+}
+
+.btn-rem-gold:hover {
+  background: linear-gradient(135deg, #b88629, #c9973a);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ── Responsive Grid ── */
+.reminders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 768px) {
+  .reminders-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Alert Cards ── */
+.rem-card {
+  background: #ffffff;
+  border: 1px solid #e4e7ef;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 2px 12px rgba(26, 37, 64, 0.05);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.rem-card:hover {
+  box-shadow: 0 6px 20px rgba(26, 37, 64, 0.08);
+}
+
+.rem-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f2f6;
+}
+
+.rem-card-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy, #1a2540);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.rem-count-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: #f0f2f6;
+  color: var(--navy, #1a2540);
+}
+
+.rem-count-pill.alert {
+  background: #fff0f3;
+  color: #e8324e;
+  border: 1px solid #fecdd3;
+  animation: pulsePill 2s infinite;
+}
+
+@keyframes pulsePill {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.rem-count-pill.gold {
+  background: #fdf6ea;
+  color: #c9973a;
+  border: 1px solid #ebd9b6;
+}
+
+/* ── Due Now Medicine Card Highlight ── */
+.rem-card.highlight-due {
+  border: 1.5px solid #ebd9b6;
+  background: linear-gradient(145deg, #ffffff, #fdfbf7);
+}
+
+.rem-due-item {
+  background: #ffffff;
+  border: 1px solid #ebd9b6;
+  border-left: 4px solid var(--gold, #c9973a);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(201, 151, 58, 0.08);
+}
+
+.rem-due-item.snoozed {
+  border-left-color: #3b82f6;
+  background: #f8fafc;
+}
+
+.rem-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.rem-med-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy, #1a2540);
+}
+
+.rem-med-dose {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--gold, #c9973a);
+  background: #fdf6ea;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.rem-item-meta {
+  font-size: 12px;
+  color: #6b7690;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.rem-item-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rem-actions-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-take-now {
+  flex: 1;
+  background: #3d9c47;
+  color: #ffffff;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s ease;
+}
+
+.btn-take-now:hover {
+  background: #2f8538;
+}
+
+.btn-snooze-dose {
+  flex: 1;
+  background: #ffffff;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-snooze-dose:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+  color: #111827;
+}
+
+/* ── Missed Medicines Section ── */
+.rem-card.missed-card {
+  border-color: #fecdd3;
+  background: #fffafa;
+}
+
+.safe-disclaimer-box {
+  background: #fef2f2;
+  border: 1px solid #fecdd3;
+  border-radius: 8px;
+  padding: 9px 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: #991b1b;
+}
+
+.safe-disclaimer-box i {
+  color: #dc2626;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.rem-missed-item {
+  background: #ffffff;
+  border: 1px solid #fed7aa;
+  border-left: 4px solid #f97316;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+
+.btn-log-missed {
+  background: #f97316;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-log-missed:hover {
+  background: #ea580c;
+}
+
+/* ── Today's Appointment Highlight Banner ── */
+.appt-today-banner {
+  background: linear-gradient(135deg, #0d1b2a, #1b263b);
+  border: 1px solid #c9973a;
+  border-radius: 12px;
+  padding: 16px;
+  color: #ffffff;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.appt-today-banner::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle, rgba(201, 151, 58, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.appt-today-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(201, 151, 58, 0.2);
+  border: 1px solid rgba(201, 151, 58, 0.4);
+  color: #e0b05a;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.appt-today-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.appt-today-details {
+  font-size: 12px;
+  color: #d1d5db;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.appt-countdown-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  background: #c9973a;
+  color: #0d1b2a;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.appt-actions-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-appt-complete {
+  background: #10b981;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-appt-complete:hover {
+  background: #059669;
+}
+
+.btn-appt-cancel {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-appt-cancel:hover {
+  background: rgba(239, 68, 68, 0.3);
+  color: #ffffff;
+}
+
+/* ── Notification History Item ── */
+.notif-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #eef2f6;
+  font-size: 12px;
+}
+
+.notif-item-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.notif-item-icon.medicine { background: #e0f2fe; color: #0284c7; }
+.notif-item-icon.appointment { background: #fef3c7; color: #d97706; }
+.notif-item-icon.system { background: #e2e8f0; color: #475569; }
+
+.notif-item-content {
+  flex: 1;
+}
+
+.notif-item-title {
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.notif-item-time {
+  font-size: 10.5px;
+  color: #94a3b8;
+  margin-top: 3px;
+}
+
+/* ── Empty State ── */
+.rem-empty-state {
+  text-align: center;
+  padding: 24px 12px;
+  color: #94a3b8;
+  font-size: 12.5px;
+}
+
+.rem-empty-state i {
+  font-size: 26px;
+  color: #cbd5e1;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* ── In-App Notification Dropdown ── */
+.notif-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 360px;
+  max-width: 95vw;
+  background: #ffffff;
+  border: 1px solid #e5dbc6;
+  border-radius: 12px;
+  box-shadow: 0 12px 35px rgba(13, 27, 42, 0.2);
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  animation: notifDrop 0.2s ease-out;
+}
+
+.notif-dropdown.show {
+  display: flex;
+}
+
+@keyframes notifDrop {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.notif-dropdown-header {
+  padding: 12px 16px;
+  background: #0d1b2a;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #c9973a;
+}
+
+.notif-dropdown-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notif-dropdown-body {
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #fdfbf7;
+}
+
+.notif-dropdown-footer {
+  padding: 10px 14px;
+  background: #ffffff;
+  border-top: 1px solid #e5dbc6;
+  text-align: center;
+}
+
+/* ── Browser Notifications Permission Pill ── */
+.browser-perm-banner {
+  background: linear-gradient(135deg, #fdf8ec, #fef4e2);
+  border: 1px solid #ebd9b6;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12.5px;
+}
+
+.browser-perm-banner.hidden {
+  display: none;
+}

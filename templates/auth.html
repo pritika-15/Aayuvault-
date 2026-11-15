@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AayuVault – Secure Health Vault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/auth.css"/>
+</head>
+<body>
+
+  <!-- Left Panel -->
+  <div class="left-panel">
+    <div class="overlay"></div>
+    <img src="https://static.vecteezy.com/system/resources/previews/001/310/635/non_2x/doctor-discussing-healthcare-with-patient-free-photo.jpg"
+         alt="Doctor with patient" class="bg-image"/>
+    <div class="left-content">
+      <div class="brand-mark">
+        <div class="shield-icon large">
+          <stop offset="0%" stop-color="#yellow"/>
+          <stop offset="100%" stop-color="#yellow"/>
+          <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGrad)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+            <clipPath id="halfClip">
+  <rect x="4" y="2" width="26" height="68"/>
+</clipPath>
+<path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" 
+      fill="url(#shieldGrad)" clip-path="url(#halfClip)" 
+      stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+<path d="M30 20 L30 50 M18 35 L42 35" 
+      stroke="white" stroke-width="4" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="shieldGrad" x1="4" y1="2" x2="56" y2="68" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#C5A74C"/>
+                <stop offset="100%" stop-color="#8B6914"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-text-left">
+          <h1 class="logo-name">AayuVault</h1>
+          <p class="logo-tagline">welcome back to your<br/>secure health vault</p>
+        </div>
+      </div>
+
+      <div class="trust-badges">
+        <span class="badge">🔒 256-bit Encryption</span>
+        <span class="badge">✅ HIPAA Compliant</span>
+        <span class="badge">🌐 24/7 Access</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="right-panel">
+    <div class="login-card">
+      <div class="card-header">
+        <div class="shield-icon small">
+          <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGrad2)" stroke="rgba(180,140,30,0.4)" stroke-width="1"/>
+            <clipPath id="halfClip">
+  <rect x="4" y="2" width="26" height="68"/>
+</clipPath>
+<path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" 
+      fill="url(#shieldGrad)" clip-path="url(#halfClip)" 
+      stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+<path d="M30 20 L30 50 M18 35 L42 35" 
+      stroke="white" stroke-width="4" stroke-linecap="round"/>
+              <linearGradient id="shieldGrad2" x1="4" y1="2" x2="56" y2="68" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#C9A84C"/>
+                <stop offset="100%" stop-color="#7A5C10"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h2 class="card-title">AayuVault</h2>
+        <p class="card-subtitle">welcome back to your secure health vault</p>
+      </div>
+
+      <!-- Login Form (action points to login.php) -->
+      <form id="loginForm" action="../pages/auth.php" method="POST" novalidate>
+        <div class="input-group">
+          <span class="input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </span>
+          <input type="text" name="username" id="username" placeholder="username / email" autocomplete="username" required/>
+          <span class="error-msg" id="usernameError"></span>
+        </div>
+
+        <div class="input-group">
+          <span class="input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </span>
+          <input type="password" name="password" id="password" placeholder="password" autocomplete="current-password" required/>
+          <button type="button" class="toggle-pw" id="togglePw" aria-label="Toggle password">
+            <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+          <span class="error-msg" id="passwordError"></span>
+        </div>
+
+        <div class="forgot-row">
+          <a href="forgot-password.php" class="forgot-link">Forget password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submitBtn">
+          <span class="btn-text">Log In to MyVault</span>
+          <span class="btn-spinner" id="spinner" hidden>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" class="spin">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </span>
+        </button>
+
+        <!-- Server-side message placeholder -->
+        <div class="server-msg" id="serverMsg"></div>
+      </form>
+
+      <div class="divider"><span>Quick Access Portals</span></div>
+
+      <div style="display:flex; flex-direction:column; gap:8px; margin-top:12px;">
+        <a href="dashboard.html" class="btn-secondary" style="text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px; font-weight:600;">
+          <i class="fa-solid fa-house" style="color:#C9A84C;"></i> Open Patient Dashboard
+        </a>
+        <a href="directory.html" class="btn-secondary" style="text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px; font-weight:600;">
+          <i class="fa-solid fa-stethoscope" style="color:#C9A84C;"></i> Browse Doctors &amp; Facilities
+        </a>
+        <a href="admin_directory.html" class="btn-secondary" style="background:#1a2540; color:#ffffff; border-color:#1a2540; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px; font-weight:600;">
+          <i class="fa-solid fa-shield-halved" style="color:#e0b05a;"></i> Doctor &amp; Facility Admin Portal
+        </a>
+      </div>
+
+      <p class="card-footer" style="margin-top:16px;">AayuVault Security · Trusted · Secure · Confidential</p>
+    </div>
+  </div>
+
+  <script src="app.js?v=1776173102.33651"></script>
+</body>
+</html>

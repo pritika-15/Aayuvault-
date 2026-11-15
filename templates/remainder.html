@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AayuVault – Patient Reminders &amp; Notification System</title>
+  <link rel="stylesheet" href="../assets/css/remainder.css"/>
+  <link rel="stylesheet" href="../assets/css/reminders_alerts.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- ── FLOATING IN-APP NOTIFICATION CONTAINER ── -->
+  <div class="inapp-notif-toast-container" id="inAppToastContainer" aria-live="polite"></div>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="38">
+          <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradRem)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+          <clipPath id="halfClipRem">
+            <rect x="4" y="2" width="26" height="68"/>
+          </clipPath>
+          <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradRem)" clip-path="url(#halfClipRem)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+          <path d="M30 20 L30 50 M18 35 L42 35" stroke="white" stroke-width="4" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="shieldGradRem" x1="4" y1="2" x2="56" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#C5A74C"/>
+              <stop offset="100%" stop-color="#8B6914"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="brand-name">AayuVault</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Home</a></li>
+      <li><a href="directory.html">Doctors &amp; Facilities</a></li>
+      <li><a href="records.html">Records</a></li>
+      <li><a href="analytics.html">AI Analytics</a></li>
+      <li><a href="appointment.html">Appointments</a></li>
+      <li><a href="remainder.html" class="active">Reminders</a></li>
+      <li>
+        <a href="profile.html" class="nav-profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+          My Profile
+        </a>
+      </li>
+      <li><button class="btn-logout" onclick="window.location.href='auth.html'">Log Out</button></li>
+    </ul>
+  </nav>
+
+  <!-- ── PAGE LAYOUT ── -->
+  <div class="page-layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+      <div class="sidebar-emblem">
+        <svg viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="46" stroke="#c49a2a" stroke-width="2" opacity="0.35"/>
+          <circle cx="50" cy="50" r="34" stroke="#c49a2a" stroke-width="1.5" opacity="0.2"/>
+          <path d="M50 18 C30 28 20 48 30 63 C40 78 60 78 70 63 C80 48 70 28 50 18Z" stroke="#c49a2a" stroke-width="1.5" fill="none" opacity="0.45"/>
+          <ellipse cx="50" cy="50" rx="11" ry="17" stroke="#c49a2a" stroke-width="1.5" fill="none" opacity="0.55"/>
+          <line x1="50" y1="33" x2="50" y2="67" stroke="#c49a2a" stroke-width="1" opacity="0.4"/>
+          <line x1="34" y1="50" x2="66" y2="50" stroke="#c49a2a" stroke-width="1" opacity="0.4"/>
+        </svg>
+      </div>
+
+      <h3 class="sidebar-heading">Reminders &amp; Alerts</h3>
+
+      <ul class="reminder-categories" id="reminder-categories">
+        <li class="cat-item active" data-filter="all"><span>All Reminders</span><span class="cat-count" id="count-all">0</span></li>
+        <li class="cat-item" data-filter="upcoming"><span>Upcoming Reminders</span><span class="cat-count" id="count-upcoming">0</span></li>
+        <li class="cat-item" data-filter="past"><span>Past / Due Reminders</span><span class="cat-count alert" id="count-past">0</span></li>
+        <li class="cat-item" data-filter="completed"><span>Completed</span><span class="cat-count" id="count-completed">0</span></li>
+        <li class="cat-item" data-filter="blood_test"><span>Blood Tests</span><span class="cat-count" id="count-blood-tests">0</span></li>
+        <li class="cat-item" data-filter="medicine"><span>Medicines</span><span class="cat-count" id="count-medicines">0</span></li>
+        <li class="cat-item" data-filter="appointment"><span>Doctor Appointments</span><span class="cat-count" id="count-appointments">0</span></li>
+      </ul>
+
+      <!-- Primary Action Buttons -->
+      <button class="btn-set-reminder" id="btn-create-reminder" onclick="openNewReminderModal('Other')">
+        <i class="fa-solid fa-plus" style="margin-right:6px;"></i> Add New Reminder
+      </button>
+
+      <!-- Blood Test 1-Click Fast Button -->
+      <button class="btn-rem-action w-full" style="width:100%; justify-content:center; margin-top:8px; border-color:#fecaca; color:#dc2626; background:#fff5f5;" onclick="openNewReminderModal('Blood Test')">
+        <i class="fa-solid fa-vial" style="color:#dc2626;"></i> Add Blood Test Reminder
+      </button>
+
+      <button class="btn-rem-action w-full" style="width:100%; justify-content:center; margin-top:8px;" onclick="openNewReminderModal('Medicine')">
+        <i class="fa-solid fa-pills" style="color:var(--gold);"></i> Add Medicine Reminder
+      </button>
+
+      <button class="btn-rem-action w-full" style="width:100%; justify-content:center; margin-top:8px;" onclick="RemindersAlerts.requestBrowserPermission()">
+        <i class="fa-solid fa-bell" style="color:var(--gold);"></i> Enable Browser Alerts
+      </button>
+    </aside>
+
+    <!-- ── CENTER: REMINDERS DASHBOARD ── -->
+    <main class="timeline-panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+        <h2 class="timeline-title" style="margin-bottom:0;" id="timeline-heading">Reminder Management &amp; Notification System</h2>
+        <span style="font-size:12px; color:#6b7690;">
+          <i class="fa-solid fa-database" style="color:var(--gold);"></i> Permanent MySQL Database Storage
+        </span>
+      </div>
+
+      <!-- Missed Notifications Banner (If any reminders were missed while offline) -->
+      <div class="safe-disclaimer-box hidden" id="missedAlertsBanner" style="margin-bottom:16px; background:#fff7ed; border-color:#fdba74; color:#9a3412;">
+        <i class="fa-solid fa-bell-slash" style="font-size:18px; color:#ea580c;"></i>
+        <div style="flex:1;">
+          <strong>Attention: You have past or missed reminders</strong>
+          <div id="missedAlertsList" style="margin-top:4px; font-size:12.5px;"></div>
+        </div>
+        <button class="btn-card-action btn-action-reopen" style="white-space:nowrap;" onclick="dismissMissedBanner()">Acknowledge</button>
+      </div>
+
+      <!-- Safe Medical Advisory Box -->
+      <div class="safe-disclaimer-box" id="safeMedicalNotice" style="margin-bottom:18px;">
+        <i class="fa-solid fa-circle-exclamation" style="font-size:16px;"></i>
+        <div>
+          <strong>Healthcare Safety Advisory:</strong> Always follow the dosage and test preparations prescribed by your healthcare provider.
+          For fasting blood tests, maintain 10–12 hours overnight fasting with water only. If you miss a medicine dose, do not double the dose.
+        </div>
+      </div>
+
+      <!-- ── THREE-SECTION NAVIGATION TABS ── -->
+      <div class="reminder-nav-tabs" role="tablist">
+        <button class="tab-nav-btn active" id="tab-btn-all" onclick="setDashboardTab('all')">
+          <i class="fa-solid fa-layer-group"></i> All Sections
+          <span class="tab-count" id="tab-count-all">0</span>
+        </button>
+        <button class="tab-nav-btn" id="tab-btn-upcoming" onclick="setDashboardTab('upcoming')">
+          <i class="fa-solid fa-calendar-check" style="color:#0284c7;"></i> 1. Upcoming Reminders
+          <span class="tab-count" id="tab-count-upcoming">0</span>
+        </button>
+        <button class="tab-nav-btn" id="tab-btn-past" onclick="setDashboardTab('past')">
+          <i class="fa-solid fa-clock-rotate-left" style="color:#ea580c;"></i> 2. Past Reminders
+          <span class="tab-count alert" id="tab-count-past">0</span>
+        </button>
+        <button class="tab-nav-btn" id="tab-btn-completed" onclick="setDashboardTab('completed')">
+          <i class="fa-solid fa-circle-check" style="color:#10b981;"></i> 3. Completed Reminders
+          <span class="tab-count" id="tab-count-completed">0</span>
+        </button>
+      </div>
+
+      <!-- Search & Type Filter Bar -->
+      <div style="display:grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 22px;">
+        <div class="search-bar" style="margin-bottom:0;">
+          <input type="text" id="search-input" placeholder="Search reminders by title, test name, description, or date..."/>
+          <button class="search-btn" id="search-btn" aria-label="Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+
+        <select id="type-select-filter" style="padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-family: var(--font-body); font-size: 0.84rem; background: #fff; font-weight: 600; color: #334155;" onchange="onTypeFilterChange(this.value)">
+          <option value="all">All Reminder Types</option>
+          <option value="Blood Test">🩸 Blood Tests</option>
+          <option value="Medicine">💊 Medicines</option>
+          <option value="Doctor Appointment">🩺 Doctor Appointments</option>
+          <option value="Health Checkup">❤️ Health Checkups</option>
+          <option value="Other">🔔 Other Reminders</option>
+        </select>
+      </div>
+
+      <!-- ── SECTION 1: UPCOMING REMINDERS ── -->
+      <section class="reminder-section-block" id="section-upcoming">
+        <div class="reminder-section-header">
+          <h3>
+            <i class="fa-solid fa-calendar-check" style="color:#0284c7;"></i>
+            Upcoming Reminders
+          </h3>
+          <span class="reminder-section-count" id="badge-upcoming-count">0 Upcoming</span>
+        </div>
+        <div class="reminder-cards-grid" id="upcoming-reminders-list">
+          <div style="padding:16px; text-align:center; color:#94a3b8; font-size:13px;">Loading upcoming reminders...</div>
+        </div>
+      </section>
+
+      <!-- ── SECTION 2: PAST REMINDERS ── -->
+      <section class="reminder-section-block" id="section-past">
+        <div class="reminder-section-header">
+          <h3>
+            <i class="fa-solid fa-clock-rotate-left" style="color:#ea580c;"></i>
+            Past &amp; Due Reminders
+          </h3>
+          <span class="reminder-section-count" style="background:#fef2f2; color:#b91c1c; border-color:#fecaca;" id="badge-past-count">0 Past</span>
+        </div>
+        <div class="reminder-cards-grid" id="past-reminders-list">
+          <div style="padding:16px; text-align:center; color:#94a3b8; font-size:13px;">Loading past reminders...</div>
+        </div>
+      </section>
+
+      <!-- ── SECTION 3: COMPLETED REMINDERS ── -->
+      <section class="reminder-section-block" id="section-completed">
+        <div class="reminder-section-header">
+          <h3>
+            <i class="fa-solid fa-circle-check" style="color:#10b981;"></i>
+            Completed Reminders
+          </h3>
+          <span class="reminder-section-count" style="background:#ecfdf5; color:#047857; border-color:#a7f3d0;" id="badge-completed-count">0 Completed</span>
+        </div>
+        <div class="reminder-cards-grid" id="completed-reminders-list">
+          <div style="padding:16px; text-align:center; color:#94a3b8; font-size:13px;">Loading completed reminders...</div>
+        </div>
+      </section>
+
+      <!-- Empty State -->
+      <div class="timeline-empty hidden" id="timeline-empty">
+        <i class="fa-regular fa-bell-slash" style="font-size:36px; color:#cbd5e1; margin-bottom:8px; display:block;"></i>
+        <p>No reminders found matching your criteria.</p>
+        <button class="btn-card-action" style="margin-top:6px;" onclick="openNewReminderModal('Blood Test')">
+          <i class="fa-solid fa-plus"></i> Create Blood Test Reminder
+        </button>
+      </div>
+    </main>
+
+    <!-- ── RIGHT PANEL: TODAY & WELLNESS ── -->
+    <aside class="right-panel">
+      <!-- Blood Test Quick Helper Card -->
+      <div class="card card-wellness" style="margin-bottom:16px; border: 1.5px solid #fecaca; background: #fffcfc;">
+        <h3 class="card-title" style="display:flex; align-items:center; gap:6px; color:#991b1b;">
+          <i class="fa-solid fa-vial" style="color:#dc2626;"></i> Fast Blood Test Scheduler
+        </h3>
+        <p style="font-size:12px; color:#6b7280; margin-bottom:10px;">Click below to instantly create a blood test reminder:</p>
+        <div class="preset-chips-wrap">
+          <button class="preset-chip" onclick="quickFillBloodTest('Complete Blood Count (CBC)', 'Routine hematology panel to evaluate hemoglobin, platelets, and RBC.')">CBC Test</button>
+          <button class="preset-chip" onclick="quickFillBloodTest('Fasting Blood Glucose (FBS)', '10-12 hours fasting required. Drink water only before sample collection.')">Fasting Sugar</button>
+          <button class="preset-chip" onclick="quickFillBloodTest('Comprehensive Lipid Panel', '12 hours overnight fasting required. Measures cholesterol, HDL, and LDL.')">Lipid Panel</button>
+          <button class="preset-chip" onclick="quickFillBloodTest('Glycemic HbA1c Panel', 'No fasting required. 3-month average blood glucose assessment.')">HbA1c</button>
+          <button class="preset-chip" onclick="quickFillBloodTest('Thyroid TSH Profile', 'Morning sample recommended before taking thyroid medications.')">Thyroid TSH</button>
+          <button class="preset-chip" onclick="quickFillBloodTest('Liver Function Test (LFT)', 'Routine liver enzyme and bilirubin screen.')">LFT Panel</button>
+          <button class="preset-chip" onclick="quickFillBloodTest('Kidney Function Test (KFT)', 'Evaluates creatinine, BUN, and glomerular filtration rate.')">KFT Panel</button>
+        </div>
+      </div>
+
+      <!-- Today's Due Spotlight Card -->
+      <div class="card card-wellness" style="margin-bottom:16px; border: 1.5px solid #ebd9b6;">
+        <h3 class="card-title" style="display:flex; align-items:center; gap:6px;">
+          <i class="fa-solid fa-clock" style="color:#c49a2a;"></i> Today's Schedule
+        </h3>
+        <div id="sideTodaySpotlight">
+          <div style="font-size:12px; color:#78716c; padding:8px 0;">Checking today's items...</div>
+        </div>
+      </div>
+
+      <!-- Wellness Guidance Card -->
+      <div class="card card-wellness">
+        <h3 class="card-title" style="display:flex; align-items:center; gap:6px;">
+          <i class="fa-solid fa-heart-pulse" style="color:#c49a2a;"></i> Clinical Reminders Guide
+        </h3>
+        <ul class="wellness-list" id="wellness-list">
+          <li class="wellness-item">
+            <span class="wellness-bullet" style="background:#dc2626;"></span>
+            <span><strong>Blood Tests:</strong> Fasting blood work requires 10 to 12 hours of overnight fasting with plain water only.</span>
+          </li>
+          <li class="wellness-item">
+            <span class="wellness-bullet" style="background:#0d9488;"></span>
+            <span><strong>Medications:</strong> Take daily doses at consistent hours. Never double a dose after a missed schedule.</span>
+          </li>
+          <li class="wellness-item">
+            <span class="wellness-bullet" style="background:#2563eb;"></span>
+            <span><strong>Doctor Consultations:</strong> Prepare previous test reports, current prescription list, and symptom questions.</span>
+          </li>
+          <li class="wellness-item">
+            <span class="wellness-bullet" style="background:#c49a2a;"></span>
+            <span><strong>Persistence:</strong> Reminders remain securely stored in your patient profile even across sessions.</span>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ── 1. ADD / CREATE REMINDER MODAL ── -->
+  <div class="modal-overlay hidden" id="modal-patient-reminder">
+    <div class="modal" style="max-width:540px; width:92%;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="reminderModalTitle">
+          <i class="fa-solid fa-bell" style="color:var(--gold); margin-right:6px;"></i>
+          Create Health Reminder
+        </h3>
+        <button class="modal-close" onclick="closeReminderModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-patient-reminder" onsubmit="handleSaveReminder(event)">
+          <!-- Reminder Title -->
+          <div class="form-group">
+            <label for="rem-input-title">Reminder Title / Name *</label>
+            <input type="text" id="rem-input-title" placeholder="e.g. Complete Blood Count (CBC), Metformin 500mg, Dr. Sharma Visit" required/>
+          </div>
+
+          <!-- Reminder Type Selector -->
+          <div class="form-group">
+            <label for="rem-input-type">Reminder Type *</label>
+            <select id="rem-input-type" onchange="onModalTypeChange(this.value)">
+              <option value="Blood Test">🩸 Blood Test</option>
+              <option value="Medicine">💊 Medicine</option>
+              <option value="Doctor Appointment">🩺 Doctor Appointment</option>
+              <option value="Health Checkup">❤️ Health Checkup</option>
+              <option value="Other">🔔 Other Reminder</option>
+            </select>
+          </div>
+
+          <!-- Blood Test Presets & Guidance Helper (Visible when Blood Test is selected) -->
+          <div id="modalBloodTestHelper" style="margin-bottom:14px;">
+            <label style="font-size:0.75rem; font-weight:700; color:#991b1b; text-transform:uppercase;">Quick Blood Test Presets:</label>
+            <div class="preset-chips-wrap">
+              <span class="preset-chip" onclick="selectPresetBloodTest('Complete Blood Count (CBC)', 'Evaluate hemoglobin, platelets, and white blood cell levels.')">CBC</span>
+              <span class="preset-chip" onclick="selectPresetBloodTest('Fasting Blood Sugar (FBS)', '10-12 hours overnight fasting with plain water only.')">Fasting Sugar</span>
+              <span class="preset-chip" onclick="selectPresetBloodTest('Comprehensive Lipid Profile', '12 hours overnight fasting. Cholesterol, HDL, and LDL.')">Lipid Profile</span>
+              <span class="preset-chip" onclick="selectPresetBloodTest('Glycemic HbA1c Test', '3-month average blood glucose indicator. No fasting.')">HbA1c</span>
+              <span class="preset-chip" onclick="selectPresetBloodTest('Thyroid Panel (TSH, T3, T4)', 'Morning sample before breakfast.')">Thyroid TSH</span>
+              <span class="preset-chip" onclick="selectPresetBloodTest('Liver Function Test (LFT)', 'Evaluates hepatic health, SGPT, SGOT, bilirubin.')">Liver LFT</span>
+              <span class="preset-chip" onclick="selectPresetBloodTest('Kidney Function Test (KFT)', 'Evaluates serum creatinine and BUN.')">Kidney KFT</span>
+              <span class="preset-chip" onclick="selectPresetBloodTest('Serum Vitamin D3 &amp; B12', 'Comprehensive vitamin and micronutrient level screen.')">Vitamin D &amp; B12</span>
+            </div>
+            <div class="blood-test-info-box">
+              <i class="fa-solid fa-droplet" style="font-size:14px; margin-top:2px;"></i>
+              <span><strong>Blood Test Advisory:</strong> Keep hydrated with plain water. Clearly indicate any required fasting period in the notes below.</span>
+            </div>
+          </div>
+
+          <!-- Date & Time Row -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="rem-input-date">Scheduled Date *</label>
+              <input type="date" id="rem-input-date" required/>
+            </div>
+            <div class="form-group">
+              <label for="rem-input-time">Scheduled Time *</label>
+              <input type="time" id="rem-input-time" required/>
+            </div>
+          </div>
+
+          <!-- Quick Time Presets -->
+          <div style="display:flex; align-items:center; gap:8px; margin-top:-8px; margin-bottom:14px;">
+            <span style="font-size:11.5px; color:#64748b;">Presets:</span>
+            <button type="button" class="btn-card-action" style="padding:2px 8px; font-size:11px;" onclick="setTimePreset('08:30')">8:30 AM</button>
+            <button type="button" class="btn-card-action" style="padding:2px 8px; font-size:11px;" onclick="setTimePreset('14:00')">2:00 PM</button>
+            <button type="button" class="btn-card-action" style="padding:2px 8px; font-size:11px;" onclick="setTimePreset('20:30')">8:30 PM</button>
+          </div>
+
+          <!-- Description / Instructions -->
+          <div class="form-group">
+            <label for="rem-input-desc">Description &amp; Instructions (Optional)</label>
+            <textarea id="rem-input-desc" rows="3" placeholder="e.g. 10 hours fasting required; bring previous lipid reports; take with a glass of water"></textarea>
+          </div>
+
+          <div class="modal-actions" style="margin-top:14px;">
+            <button type="button" class="btn-cancel" onclick="closeReminderModal()">Cancel</button>
+            <button type="submit" class="btn-save" id="btn-save-patient-rem">
+              <i class="fa-solid fa-check" style="margin-right:4px;"></i> Save to Database
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2. EDIT REMINDER MODAL ── -->
+  <div class="modal-overlay hidden" id="modal-edit-reminder">
+    <div class="modal" style="max-width:540px; width:92%;">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <i class="fa-solid fa-pen-to-square" style="color:var(--gold); margin-right:6px;"></i>
+          Edit Health Reminder
+        </h3>
+        <button class="modal-close" onclick="closeEditModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-edit-patient-reminder" onsubmit="handleUpdateReminder(event)">
+          <input type="hidden" id="edit-rem-id" value=""/>
+
+          <div class="form-group">
+            <label for="edit-rem-title">Reminder Title / Name *</label>
+            <input type="text" id="edit-rem-title" required/>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="edit-rem-type">Reminder Type</label>
+              <select id="edit-rem-type">
+                <option value="Blood Test">🩸 Blood Test</option>
+                <option value="Medicine">💊 Medicine</option>
+                <option value="Doctor Appointment">🩺 Doctor Appointment</option>
+                <option value="Health Checkup">❤️ Health Checkup</option>
+                <option value="Other">🔔 Other Reminder</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="edit-rem-status">Status</label>
+              <select id="edit-rem-status">
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+                <option value="Missed">Missed</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="edit-rem-date">Scheduled Date *</label>
+              <input type="date" id="edit-rem-date" required/>
+            </div>
+            <div class="form-group">
+              <label for="edit-rem-time">Scheduled Time *</label>
+              <input type="time" id="edit-rem-time" required/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-rem-desc">Description &amp; Instructions</label>
+            <textarea id="edit-rem-desc" rows="3"></textarea>
+          </div>
+
+          <div class="modal-actions" style="margin-top:14px;">
+            <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+            <button type="submit" class="btn-save" id="btn-update-patient-rem">Update Reminder</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/reminders_alerts.js"></script>
+  <script src="../assets/js/remainder.js"></script>
+</body>
+</html>

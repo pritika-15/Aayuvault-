@@ -1,0 +1,617 @@
+/* =============================================
+   CSS VARIABLES & RESET
+   ============================================= */
+:root {
+  --gold: #c49a2a;
+  --gold-light: #e8c04a;
+  --gold-muted: #f5e6b8;
+  --gold-bg: #fdf8ec;
+  --dark: #1a1a1a;
+  --text: #2c2c2c;
+  --muted: #7a7a7a;
+  --border: #e8dfc8;
+  --white: #ffffff;
+  --inactive-bg: #f5f5f5;
+  --inactive-text: #aaaaaa;
+  --panel-bg: rgba(255, 255, 255, 0.92);
+  --shadow: 0 4px 24px rgba(0,0,0,0.07);
+  --shadow-card: 0 2px 12px rgba(196,154,42,0.10);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--gold-bg);
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(196,154,42,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 90%, rgba(196,154,42,0.06) 0%, transparent 55%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-logo {
+  width: 36px;
+  height: 36px;
+  background: var(--gold);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.nav-logo svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-brand-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--dark);
+  letter-spacing: 0.01em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color 0.2s;
+  padding-bottom: 2px;
+}
+
+.nav-links a:hover {
+  color: var(--gold);
+}
+
+.nav-links a.active {
+  color: var(--dark);
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 0;
+}
+
+.nav-profile {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-profile svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 18px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* =============================================
+   MAIN LAYOUT
+   ============================================= */
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 28px;
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 28px 48px;
+}
+
+/* =============================================
+   PANEL
+   ============================================= */
+.panel {
+  background: var(--panel-bg);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(6px);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--dark);
+  font-weight: 400;
+}
+
+.badge {
+  background: var(--gold);
+  color: white;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+}
+
+/* =============================================
+   MEDICATION GRID
+   ============================================= */
+.med-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+/* =============================================
+   MEDICATION CARD
+   ============================================= */
+.med-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: box-shadow 0.2s, transform 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+
+.med-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--gold);
+  border-radius: 4px 0 0 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.med-card:hover {
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
+}
+
+.med-card:hover::before {
+  opacity: 1;
+}
+
+.med-card.inactive {
+  background: var(--inactive-bg);
+  border-color: #e0e0e0;
+}
+
+.med-card.inactive .med-name,
+.med-card.inactive .med-dosage {
+  color: var(--inactive-text);
+}
+
+.med-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.med-icon-wrap {
+  width: 38px;
+  height: 38px;
+  background: var(--gold-muted);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.med-icon-wrap.inactive-icon {
+  background: #e8e8e8;
+}
+
+.med-icon-wrap svg {
+  width: 20px;
+  height: 20px;
+  color: var(--gold);
+}
+
+.med-icon-wrap.inactive-icon svg {
+  color: var(--inactive-text);
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--gold);
+  line-height: 1;
+  padding: 0;
+  transition: transform 0.15s;
+}
+
+.star-btn:hover {
+  transform: scale(1.2);
+}
+
+.med-card.inactive .star-btn {
+  color: #ccc;
+}
+
+.med-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--dark);
+  margin-top: 4px;
+}
+
+.med-dosage {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.med-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.priority-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.74rem;
+  color: var(--muted);
+  margin-right: auto;
+}
+
+.priority-badge svg {
+  width: 13px;
+  height: 13px;
+  color: var(--gold);
+}
+
+.med-link {
+  font-size: 0.78rem;
+  color: var(--gold);
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.med-link:hover {
+  color: var(--gold-light);
+}
+
+/* =============================================
+   INACTIVE SECTION
+   ============================================= */
+.inactive-section {
+  margin-top: 24px;
+}
+
+.inactive-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* =============================================
+   RIGHT PANEL CARDS
+   ============================================= */
+.panel-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.card {
+  background: var(--panel-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--dark);
+  margin-bottom: 18px;
+}
+
+/* =============================================
+   CALENDAR
+   ============================================= */
+.calendar-container {
+  margin-bottom: 20px;
+}
+
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--gold);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+}
+
+.cal-month-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.03em;
+}
+
+.cal-nav {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 6px;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+
+.cal-nav:hover {
+  opacity: 1;
+}
+
+.cal-days-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.cal-cell {
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 6px 2px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text);
+  transition: background 0.15s, color 0.15s;
+}
+
+.cal-cell:hover {
+  background: var(--gold-muted);
+}
+
+.cal-cell.today {
+  background: var(--gold);
+  color: white;
+  font-weight: 700;
+}
+
+.cal-cell.other-month {
+  color: #ccc;
+}
+
+.cal-cell.empty {
+  cursor: default;
+}
+
+/* =============================================
+   UPCOMING REFILLS
+   ============================================= */
+.refills-section {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+
+.refills-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+
+.refills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.refill-item {
+  font-size: 0.8rem;
+  color: var(--muted);
+  padding: 6px 10px;
+  background: var(--gold-bg);
+  border-radius: 6px;
+  border-left: 3px solid var(--gold-light);
+}
+
+.btn-refills {
+  width: 100%;
+  background: var(--gold);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: 0.02em;
+}
+
+.btn-refills:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+/* =============================================
+   WELLNESS INSIGHTS
+   ============================================= */
+.wellness-description {
+  font-size: 0.83rem;
+  color: var(--muted);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+.wellness-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.wellness-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.wellness-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.wellness-learn {
+  font-size: 0.82rem;
+  color: var(--gold);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.med-card {
+  animation: fadeInUp 0.35s ease both;
+}
+
+.med-card:nth-child(1) { animation-delay: 0.04s; }
+.med-card:nth-child(2) { animation-delay: 0.08s; }
+.med-card:nth-child(3) { animation-delay: 0.12s; }
+.med-card:nth-child(4) { animation-delay: 0.16s; }
+.med-card:nth-child(5) { animation-delay: 0.20s; }
+.med-card:nth-child(6) { animation-delay: 0.24s; }
+.med-card:nth-child(7) { animation-delay: 0.28s; }
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 900px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-right {
+    display: flex;
+  }
+}
+
+@media (max-width: 600px) {
+  .med-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .navbar {
+    padding: 0 16px;
+  }
+
+  .main-layout {
+    padding: 0 12px 32px;
+  }
+}

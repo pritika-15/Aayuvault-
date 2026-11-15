@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AayuVault – Medications</title>
+  <link rel="stylesheet" href="../assets/css/medication.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NAV -->
+  
+     <nav class="navbar">
+  <div class="nav-brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="38">
+        <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradMed)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <clipPath id="halfClipMed">
+          <rect x="4" y="2" width="26" height="68"/>
+        </clipPath>
+        <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradMed)" clip-path="url(#halfClipMed)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <path d="M30 20 L30 50 M18 35 L42 35" stroke="white" stroke-width="4" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="shieldGradMed" x1="4" y1="2" x2="56" y2="68" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#C5A74C"/>
+            <stop offset="100%" stop-color="#8B6914"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <span class="brand-name">AayuVault</span>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="dashboard.html">Home</a></li>
+    <li><a href="medication.html" class="active">Medications</a></li>
+    <li>
+      <a href="profile.html" class="nav-profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        My Profile
+      </a>
+    </li>
+    <li><button class="btn-logout">Log Out</button></li>
+  </ul>
+</nav>
+
+  <!-- MAIN LAYOUT -->
+  <main class="main-layout">
+
+    <!-- LEFT PANEL: Prescriptions -->
+    <section class="panel panel-left">
+      <div class="panel-header">
+        <h2 class="panel-title">My Prescriptions</h2>
+        <span class="badge">Prescriptions</span>
+      </div>
+
+      <!-- Active Medications Grid -->
+      <div class="med-grid" id="med-grid">
+        <!-- Cards injected by JS -->
+      </div>
+
+      <!-- Inactive Section -->
+      <div class="inactive-section">
+        <h3 class="inactive-label">Inactive</h3>
+        <div class="med-grid inactive-grid" id="inactive-grid">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL -->
+    <section class="panel panel-right">
+
+      <!-- Calendar -->
+      <div class="card card-calendar">
+        <h2 class="card-title">Medication Schedule &amp; Refills</h2>
+
+        <div class="calendar-container">
+          <!-- Calendar Header -->
+          <div class="cal-header">
+            <button class="cal-nav" id="prev-month">&#8249;</button>
+            <span class="cal-month-label" id="cal-month-label">April 2026</span>
+            <button class="cal-nav" id="next-month">&#8250;</button>
+          </div>
+
+          <!-- Day Labels -->
+          <div class="cal-days-row">
+            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span>
+            <span>Th</span><span>Fr</span><span>Sa</span>
+          </div>
+
+          <!-- Date Grid -->
+          <div class="cal-grid" id="cal-grid">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Upcoming Refills -->
+        <div class="refills-section">
+          <h3 class="refills-title">Upcoming Refills</h3>
+          <div class="refills-list" id="refills-list">
+            <!-- Injected by JS -->
+          </div>
+          <button class="btn-refills">Manage Refills</button>
+        </div>
+      </div>
+
+      <!-- Wellness Insights -->
+      <div class="card card-wellness">
+        <h2 class="card-title">Wellness Insights AI</h2>
+        <p class="wellness-description">
+          Based on your data, the AI has prioritized these wellness suggestions for your medication plan.
+        </p>
+        <ul class="wellness-list" id="wellness-list">
+          <!-- Injected by JS -->
+        </ul>
+        <a href="#" class="wellness-learn">Learn More</a>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

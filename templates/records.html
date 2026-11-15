@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AayuVault – Medical Records & AI Analysis</title>
+  <link rel="stylesheet" href="../assets/css/records.css"/>
+  <link rel="stylesheet" href="../assets/css/ai_report_modal.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Outfit:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="38">
+          <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradRec)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+          <clipPath id="halfClipRec">
+            <rect x="4" y="2" width="26" height="68"/>
+          </clipPath>
+          <path d="M30 2L4 14V34C4 50 16 64 30 68C44 64 56 50 56 34V14L30 2Z" fill="url(#shieldGradRec)" clip-path="url(#halfClipRec)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+          <path d="M30 20 L30 50 M18 35 L42 35" stroke="white" stroke-width="4" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="shieldGradRec" x1="4" y1="2" x2="56" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#C5A74C"/>
+              <stop offset="100%" stop-color="#8B6914"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="brand-name">AayuVault</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="directory.html"><i class="fa-solid fa-stethoscope"></i> Doctors &amp; Facilities</a></li>
+      <li><a href="records.html" class="active"><i class="fa-solid fa-file-medical"></i> Medical Records</a></li>
+      <li><a href="analytics.html"><i class="fa-solid fa-chart-line"></i> AI Analytics</a></li>
+      <li><a href="appointment.html"><i class="fa-solid fa-calendar-check"></i> Appointments</a></li>
+      <li><a href="remainder.html"><i class="fa-solid fa-bell"></i> Reminders</a></li>
+      <li>
+        <a href="profile.html" class="nav-profile">
+          <i class="fa-regular fa-user"></i> My Profile
+        </a>
+      </li>
+      <li><button class="btn-logout" onclick="window.location.href='auth.html'">Log Out</button></li>
+    </ul>
+  </nav>
+
+  <!-- ── MAIN ── -->
+  <div class="page-layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+      <div class="sidebar-emblem">
+        <svg viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="46" stroke="#c49a2a" stroke-width="2" opacity="0.4"/>
+          <circle cx="50" cy="50" r="36" stroke="#c49a2a" stroke-width="1.5" opacity="0.25"/>
+          <path d="M50 20 C30 30 20 50 30 65 C40 80 60 80 70 65 C80 50 70 30 50 20Z" stroke="#c49a2a" stroke-width="1.5" fill="none" opacity="0.5"/>
+          <ellipse cx="50" cy="50" rx="12" ry="18" stroke="#c49a2a" stroke-width="1.5" fill="none" opacity="0.6"/>
+          <line x1="50" y1="32" x2="50" y2="68" stroke="#c49a2a" stroke-width="1" opacity="0.5"/>
+          <line x1="33" y1="50" x2="67" y2="50" stroke="#c49a2a" stroke-width="1" opacity="0.5"/>
+        </svg>
+      </div>
+
+      <h3 class="sidebar-heading">Record Categories</h3>
+
+      <ul class="record-types" id="record-types">
+        <!-- injected by JS -->
+      </ul>
+
+      <button class="btn-summary" style="margin-top:10px;background:linear-gradient(135deg, #c9973a, #e0b05a);color:#fff;font-weight:700;" onclick="openStoreRecordModal('prescription')">
+        <i class="fa-solid fa-file-circle-plus"></i> Store Record / Rx
+      </button>
+      <button class="btn-summary" onclick="window.location.href='analytics.html'"><i class="fa-solid fa-chart-pie"></i> Longitudinal Analytics</button>
+      <button class="btn-summary" style="margin-top:10px;background:#0d1b2a;color:#fff;" onclick="openPasteReportModal()"><i class="fa-solid fa-paste" style="color:#C9A84C;"></i> Paste Raw Report Text</button>
+    </aside>
+
+    <!-- ── CENTER: TIMELINE ── -->
+    <main class="timeline-panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h2 class="timeline-title" style="margin-bottom:2px;">Medical Records Timeline</h2>
+          <span style="font-size:0.8rem;color:#6b7280;">Secure Personal Health Records & Clinical Storage</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-ai" style="padding: 9px 16px; font-size: 0.85rem; background: linear-gradient(135deg, #c9973a, #e0b05a); color:#fff; font-weight:700; border:none; box-shadow:0 3px 10px rgba(201,151,58,0.3); cursor:pointer;" onclick="openStoreRecordModal('prescription')">
+            <i class="fa-solid fa-file-circle-plus"></i> Store Prescription / Report
+          </button>
+          <button class="btn-ai" style="padding: 9px 15px; font-size: 0.82rem; background:#1b263b;" onclick="openPasteReportModal()">
+            <i class="fa-solid fa-keyboard"></i> Paste Text
+          </button>
+          <input type="file" id="recordFileInput" accept=".pdf,.jpg,.jpeg,.png,.txt,.csv" style="display:none;" onchange="handleRecordUpload(event)" />
+          <button class="btn-ai" style="padding: 9px 18px; font-size: 0.85rem;" onclick="document.getElementById('recordFileInput').click()">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Upload & Analyze
+          </button>
+        </div>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search Records by doctor, date, biomarker, condition, facility..." />
+        <button class="search-btn" id="search-btn">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <!-- Upload status banner -->
+      <div id="recordUploadStatus" style="display:none; padding:12px 16px; border-radius:10px; margin-bottom:20px; font-size:0.88rem;"></div>
+
+      <!-- Timeline entries injected by JS -->
+      <div class="timeline" id="timeline">
+        <!-- Entries will be loaded here -->
+      </div>
+
+      <div class="timeline-empty hidden" id="timeline-empty">
+        <i class="fa-solid fa-folder-open" style="font-size:36px; color:#c49a2a;"></i>
+        <p>No records match your search criteria.</p>
+      </div>
+    </main>
+
+    <!-- ── RIGHT PANEL ── -->
+    <aside class="right-panel">
+
+      <!-- Record Sync Status -->
+      <div class="card card-sync">
+        <h3 class="card-title"><i class="fa-solid fa-rotate" style="color:var(--gold);margin-right:6px;"></i> Record Sync Status</h3>
+        <div class="sync-providers" id="sync-providers">
+          <!-- injected by JS -->
+        </div>
+        <div class="sync-status-list" id="sync-status-list">
+          <!-- injected by JS -->
+        </div>
+        <button class="btn-add-provider" onclick="alert('Syncing with ABDM / ABDM Health Information Exchange...')"><i class="fa-solid fa-link"></i> Sync ABDM Providers</button>
+      </div>
+
+      <!-- AayuInsights AI Analysis -->
+      <div class="card card-insights">
+        <h3 class="card-title"><i class="fa-solid fa-brain" style="color:var(--gold);margin-right:6px;"></i> Clinical Insights &amp; Highlights</h3>
+        <ul class="insights-list" id="insights-list">
+          <!-- injected by JS -->
+        </ul>
+        <button class="btn-summary" style="margin-top:16px;" onclick="AayuAIReportModal.showFromRecordId(1)"><i class="fa-solid fa-sparkles"></i> Open Latest AI Report</button>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- ── STORE MEDICAL RECORD & PRESCRIPTION MODAL ── -->
+  <div id="storeRecordModal" style="display:none;position:fixed;inset:0;background:rgba(13,27,42,0.75);z-index:99999;align-items:center;justify-content:center;backdrop-filter:blur(4px);padding:16px;">
+    <div style="background:#ffffff;border-radius:14px;width:100%;max-width:620px;max-height:92vh;overflow-y:auto;box-shadow:0 20px 40px rgba(0,0,0,0.35);border:1px solid #e5dbc6;">
+      <!-- Modal Header -->
+      <div style="background:linear-gradient(135deg,#0d1b2a,#1b263b);color:#ffffff;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #C9A84C;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="background:rgba(201,168,76,0.2);width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;border:1px solid #C9A84C;">
+            <i class="fa-solid fa-file-waveform" style="color:#C9A84C;font-size:18px;"></i>
+          </div>
+          <div>
+            <h3 style="margin:0;font-size:1.15rem;font-weight:700;">Store Medical Record &amp; Prescription</h3>
+            <span style="font-size:0.75rem;color:#d1d5db;">Save clinical reports, doctor prescriptions, and documents to your personal vault</span>
+          </div>
+        </div>
+        <button onclick="closeStoreRecordModal()" style="background:none;border:none;color:#ffffff;font-size:22px;cursor:pointer;opacity:0.8;transition:opacity 0.2s;" title="Close">&times;</button>
+      </div>
+
+      <!-- Modal Body -->
+      <form id="storeRecordForm" onsubmit="event.preventDefault(); submitStoreRecord();" style="padding:22px;">
+        <!-- Category selector pills -->
+        <div style="margin-bottom:16px;">
+          <label style="display:block;font-size:0.82rem;font-weight:700;color:#1b263b;margin-bottom:8px;">Select Record Type</label>
+          <input type="hidden" id="storeRecordType" value="prescription" />
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button type="button" class="store-type-pill active" data-type="prescription" onclick="selectStoreType('prescription')" style="flex:1;min-width:120px;padding:8px 12px;border:1.5px solid #C9A84C;background:#fefbf3;border-radius:8px;font-size:0.82rem;font-weight:700;color:#8B6914;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+              <i class="fa-solid fa-prescription-bottle-medical"></i> Prescription (Rx)
+            </button>
+            <button type="button" class="store-type-pill" data-type="lab" onclick="selectStoreType('lab')" style="flex:1;min-width:120px;padding:8px 12px;border:1.5px solid #d1d5db;background:#fff;border-radius:8px;font-size:0.82rem;font-weight:600;color:#4b5563;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+              <i class="fa-solid fa-flask"></i> Lab Test Report
+            </button>
+            <button type="button" class="store-type-pill" data-type="radiology" onclick="selectStoreType('radiology')" style="flex:1;min-width:120px;padding:8px 12px;border:1.5px solid #d1d5db;background:#fff;border-radius:8px;font-size:0.82rem;font-weight:600;color:#4b5563;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+              <i class="fa-solid fa-x-ray"></i> Scan / X-Ray
+            </button>
+            <button type="button" class="store-type-pill" data-type="visit" onclick="selectStoreType('visit')" style="flex:1;min-width:120px;padding:8px 12px;border:1.5px solid #d1d5db;background:#fff;border-radius:8px;font-size:0.82rem;font-weight:600;color:#4b5563;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+              <i class="fa-solid fa-stethoscope"></i> Clinic Visit
+            </button>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:0.82rem;font-weight:700;color:#1b263b;margin-bottom:4px;">Title / Summary <span style="color:#dc2626;">*</span></label>
+          <input type="text" id="storeRecordTitle" placeholder="e.g. Cardiology Prescription – Dr. Sharma" required style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.88rem;box-sizing:border-box;" />
+        </div>
+
+        <!-- Two-column: Doctor & Facility -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+          <div>
+            <label style="display:block;font-size:0.82rem;font-weight:700;color:#1b263b;margin-bottom:4px;">Doctor / Specialist Name</label>
+            <input type="text" id="storeRecordDoctor" placeholder="e.g. Dr. Priya Sharma" style="width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.86rem;box-sizing:border-box;" />
+          </div>
+          <div>
+            <label style="display:block;font-size:0.82rem;font-weight:700;color:#1b263b;margin-bottom:4px;">Hospital / Clinic / Lab</label>
+            <input type="text" id="storeRecordFacility" placeholder="e.g. Apollo Hospital / Quest Labs" style="width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.86rem;box-sizing:border-box;" />
+          </div>
+        </div>
+
+        <!-- Date -->
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:0.82rem;font-weight:700;color:#1b263b;margin-bottom:4px;">Date of Prescription / Report</label>
+          <input type="date" id="storeRecordDate" style="width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.86rem;box-sizing:border-box;" />
+        </div>
+
+        <!-- Medicines / Clinical Notes -->
+        <div style="margin-bottom:14px;">
+          <label id="storeNotesLabel" style="display:block;font-size:0.82rem;font-weight:700;color:#1b263b;margin-bottom:4px;">
+            <i class="fa-solid fa-pills" style="color:#C9A84C;"></i> Prescribed Medicines &amp; Dosage Instructions
+          </label>
+          <textarea id="storeRecordNotes" rows="4" placeholder="List prescribed medications, dosage (e.g. Atorvastatin 20mg 1 tab OD night, Aspirin 75mg OD after food), refills, or physician guidance..." style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.86rem;box-sizing:border-box;resize:vertical;font-family:inherit;"></textarea>
+        </div>
+
+        <!-- File Attachment (PDF, Image, Scan) -->
+        <div style="margin-bottom:16px;">
+          <label style="display:block;font-size:0.82rem;font-weight:700;color:#1b263b;margin-bottom:4px;">
+            <i class="fa-solid fa-paperclip" style="color:#C9A84C;"></i> Attach Document or Prescription Slip (Optional)
+          </label>
+          <div onclick="document.getElementById('storeRecordFile').click()" style="border:2px dashed #d1d5db;border-radius:8px;padding:14px;text-align:center;background:#f9fafb;cursor:pointer;transition:all 0.2s;">
+            <input type="file" id="storeRecordFile" accept=".pdf,.jpg,.jpeg,.png,.txt,.csv,.doc,.docx" style="display:none;" onchange="handleStoreFileSelect(event)" />
+            <div id="storeFileNamePreview" style="font-size:0.84rem;color:#4b5563;">
+              <span style="color:#6b7280;"><i class="fa-solid fa-cloud-arrow-up"></i> Click or drag document/slip here (PDF, JPG, PNG)</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="storeModalStatus" style="display:none;padding:10px 14px;border-radius:8px;font-size:0.84rem;margin-bottom:14px;"></div>
+
+        <!-- Footer Buttons -->
+        <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:10px;border-top:1px solid #f3f4f6;">
+          <button type="button" onclick="closeStoreRecordModal()" style="background:#f3f4f6;border:1px solid #d1d5db;color:#374151;padding:9px 18px;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;">Cancel</button>
+          <button type="submit" style="background:linear-gradient(135deg, #c9973a, #e0b05a);border:none;color:#ffffff;padding:9px 24px;border-radius:8px;font-size:0.88rem;font-weight:700;cursor:pointer;box-shadow:0 3px 8px rgba(201,151,58,0.3);display:flex;align-items:center;gap:6px;">
+            <i class="fa-solid fa-floppy-disk"></i> Store in Vault
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── PASTE REPORT TEXT MODAL ── -->
+  <div id="pasteReportModal" style="display:none;position:fixed;inset:0;background:rgba(13,27,42,0.75);z-index:99999;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+    <div style="background:#ffffff;border-radius:14px;width:90%;max-width:600px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,0.3);border:1px solid #e5dbc6;">
+      <div style="background:linear-gradient(135deg,#0d1b2a,#1b263b);color:#ffffff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <i class="fa-solid fa-wand-magic-sparkles" style="color:#C9A84C;font-size:20px;"></i>
+          <h3 style="margin:0;font-size:1.1rem;font-weight:700;">Analyze &amp; Store Medical Report</h3>
+        </div>
+        <button onclick="document.getElementById('pasteReportModal').style.display='none'" style="background:none;border:none;color:#ffffff;font-size:20px;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div style="padding:20px;">
+        <p style="font-size:0.86rem;color:#4b5563;margin-top:0;line-height:1.5;">
+          Paste raw lab values, doctor notes, or pathology text below. The Clinical AI Engine will extract all biomarkers, reference ranges, and organ system impacts.
+        </p>
+        <div style="margin-bottom:12px;">
+          <label style="display:block;font-size:0.82rem;font-weight:700;color:#1b263b;margin-bottom:4px;">Report Title</label>
+          <input type="text" id="pasteReportTitle" placeholder="e.g. Comprehensive Lipid & Liver Profile" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.88rem;box-sizing:border-box;" />
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:0.82rem;font-weight:700;color:#1b263b;margin-bottom:4px;">Report Content / Lab Text</label>
+          <textarea id="pasteReportContent" rows="6" placeholder="Total Cholesterol: 220 mg/dL&#10;LDL: 140 mg/dL&#10;HDL: 42 mg/dL&#10;Triglycerides: 180 mg/dL&#10;Fasting Blood Glucose: 105 mg/dL&#10;HbA1c: 6.0%" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.88rem;box-sizing:border-box;font-family:monospace;resize:vertical;"></textarea>
+        </div>
+        <div id="pasteModalStatus" style="display:none;padding:10px 12px;border-radius:8px;font-size:0.82rem;margin-bottom:14px;"></div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;">
+          <button onclick="document.getElementById('pasteReportModal').style.display='none'" style="background:#f3f4f6;border:1px solid #d1d5db;color:#374151;padding:9px 16px;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;">Cancel</button>
+          <button onclick="submitPastedReport()" style="background:#C9A84C;border:none;color:#ffffff;padding:9px 20px;border-radius:8px;font-size:0.85rem;font-weight:700;cursor:pointer;">
+            <i class="fa-solid fa-sparkles"></i> Run AI Analysis
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/ai_report_modal.js"></script>
+  <script src="../assets/js/records.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

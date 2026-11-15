@@ -1,0 +1,740 @@
+/* ============================================================
+   ai_report_modal.css — AayuVault AI Medical Report Analysis Modal
+   ============================================================ */
+
+:root {
+  --arm-gold: #c49a2a;
+  --arm-gold-light: #f5e6b8;
+  --arm-gold-dark: #8b6914;
+  --arm-navy: #0d1b2a;
+  --arm-navy-light: #1b263b;
+  --arm-teal: #008080;
+  --arm-text: #2c2c2c;
+  --arm-muted: #6b7280;
+  --arm-border: #e5dbc6;
+  --arm-bg: #ffffff;
+  --arm-card-bg: #faf7f0;
+  --arm-green: #10b981;
+  --arm-amber: #f59e0b;
+  --arm-red: #ef4444;
+  --arm-blue: #3b82f6;
+  --arm-radius: 16px;
+}
+
+/* Modal Overlay */
+.arm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 27, 42, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.arm-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal Container */
+.arm-modal {
+  background: var(--arm-bg);
+  border: 1px solid var(--arm-border);
+  border-radius: var(--arm-radius);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 960px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateY(20px) scale(0.98);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arm-overlay.open .arm-modal {
+  transform: translateY(0) scale(1);
+}
+
+/* Modal Header */
+.arm-header {
+  background: linear-gradient(135deg, #1b263b 0%, #0d1b2a 100%);
+  color: #ffffff;
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--arm-gold);
+  position: relative;
+}
+
+.arm-header-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.arm-icon-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #c49a2a 0%, #8b6914 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(196, 154, 42, 0.3);
+  flex-shrink: 0;
+}
+
+.arm-title-group h2 {
+  font-family: 'DM Sans', 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #ffffff;
+}
+
+.arm-meta-tags {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.82rem;
+  color: #d1d5db;
+  flex-wrap: wrap;
+}
+
+.arm-meta-tags span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.arm-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Score Dial Badge */
+.arm-score-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(196, 154, 42, 0.4);
+  border-radius: 12px;
+  padding: 6px 14px;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.arm-score-val {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--arm-gold);
+  line-height: 1;
+}
+
+.arm-score-label {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.arm-btn-close {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.arm-btn-close:hover {
+  background: rgba(239, 68, 68, 0.8);
+  transform: scale(1.05);
+}
+
+/* Tab Navigation */
+.arm-nav {
+  display: flex;
+  background: #fdfbf7;
+  border-bottom: 1px solid var(--arm-border);
+  padding: 0 28px;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.arm-tab-btn {
+  background: none;
+  border: none;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--arm-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.arm-tab-btn:hover {
+  color: var(--arm-gold-dark);
+}
+
+.arm-tab-btn.active {
+  color: var(--arm-gold-dark);
+  border-bottom-color: var(--arm-gold);
+}
+
+/* Modal Body */
+.arm-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  background: #faf8f3;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.arm-tab-pane {
+  display: none;
+  animation: armFadeIn 0.3s ease;
+}
+
+.arm-tab-pane.active {
+  display: block;
+}
+
+@keyframes armFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Summary Banner */
+.arm-summary-box {
+  background: #ffffff;
+  border: 1px solid var(--arm-border);
+  border-left: 4px solid var(--arm-gold);
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  margin-bottom: 20px;
+}
+
+.arm-summary-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--arm-gold-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arm-summary-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--arm-text);
+}
+
+/* Organ System Status Grid */
+.arm-organs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.arm-organ-card {
+  background: #ffffff;
+  border: 1px solid var(--arm-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.arm-organ-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: var(--arm-gold-light);
+  color: var(--arm-gold-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.arm-organ-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--arm-text);
+}
+
+.arm-organ-status {
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.arm-organ-status.optimal { color: var(--arm-green); }
+.arm-organ-status.warning { color: var(--arm-amber); }
+.arm-organ-status.danger  { color: var(--arm-red); }
+
+/* Biomarker Filters */
+.arm-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.arm-filter-pills {
+  display: flex;
+  gap: 8px;
+}
+
+.arm-filter-pill {
+  background: #ffffff;
+  border: 1px solid var(--arm-border);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--arm-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.arm-filter-pill:hover,
+.arm-filter-pill.active {
+  background: var(--arm-gold-light);
+  color: var(--arm-gold-dark);
+  border-color: var(--arm-gold);
+}
+
+/* Biomarker Cards */
+.arm-biomarkers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.arm-biomarker-card {
+  background: #ffffff;
+  border: 1px solid var(--arm-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.arm-biomarker-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(196, 154, 42, 0.12);
+}
+
+.arm-biomarker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.arm-bm-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--arm-text);
+}
+
+.arm-bm-category {
+  font-size: 0.72rem;
+  color: var(--arm-muted);
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-left: 8px;
+}
+
+.arm-bm-val-badge {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.arm-bm-val {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--arm-navy);
+}
+
+.arm-bm-unit {
+  font-size: 0.78rem;
+  color: var(--arm-muted);
+}
+
+.arm-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+.arm-badge.normal { background: #d1fae5; color: #065f46; }
+.arm-badge.warning { background: #fef3c7; color: #92400e; }
+.arm-badge.danger { background: #fee2e2; color: #991b1b; }
+.arm-badge.info { background: #e0f2fe; color: #0369a1; }
+
+/* Visual Biomarker Gauge Slider */
+.arm-gauge-wrap {
+  margin: 12px 0 10px;
+}
+
+.arm-gauge-bar {
+  height: 10px;
+  background: linear-gradient(to right, #60a5fa 0%, #34d399 25%, #34d399 60%, #fbbf24 80%, #f87171 100%);
+  border-radius: 6px;
+  position: relative;
+}
+
+.arm-gauge-pin {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border: 3px solid var(--arm-navy);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  transition: left 0.4s ease;
+}
+
+.arm-gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--arm-muted);
+  margin-top: 4px;
+}
+
+.arm-bm-desc {
+  font-size: 0.82rem;
+  color: var(--arm-muted);
+  line-height: 1.5;
+  background: #fdfbf7;
+  border-radius: 6px;
+  padding: 8px 12px;
+  border-left: 3px solid var(--arm-gold);
+}
+
+/* Action Plan Grid */
+.arm-plan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.arm-plan-card {
+  background: #ffffff;
+  border: 1px solid var(--arm-border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.arm-plan-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--arm-navy);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.arm-plan-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.arm-plan-list li {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--arm-text);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.arm-plan-list li i {
+  color: var(--arm-gold);
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+/* Doctor Discussion Guide */
+.arm-doctor-checklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.arm-doc-item {
+  background: #ffffff;
+  border: 1px solid var(--arm-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.arm-doc-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--arm-gold);
+  cursor: pointer;
+}
+
+.arm-doc-item span {
+  font-size: 0.9rem;
+  color: var(--arm-text);
+  font-weight: 500;
+}
+
+/* Interactive Ask AI Chat Tab */
+.arm-chat-container {
+  background: #ffffff;
+  border: 1px solid var(--arm-border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  height: 480px;
+  overflow: hidden;
+}
+
+.arm-chat-header {
+  padding: 12px 18px;
+  background: #fdfbf7;
+  border-bottom: 1px solid var(--arm-border);
+  font-size: 0.85rem;
+  color: var(--arm-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arm-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #faf8f3;
+}
+
+.arm-chat-msg {
+  max-width: 82%;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.arm-chat-msg.bot {
+  background: #ffffff;
+  border: 1px solid var(--arm-border);
+  color: var(--arm-text);
+  align-self: flex-start;
+  border-bottom-left-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.arm-chat-msg.user {
+  background: linear-gradient(135deg, #1b263b 0%, #0d1b2a 100%);
+  color: #ffffff;
+  align-self: flex-end;
+  border-bottom-right-radius: 2px;
+}
+
+.arm-chat-chips {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #ffffff;
+  border-top: 1px solid #f3f4f6;
+  overflow-x: auto;
+}
+
+.arm-chip {
+  background: #fdf8ec;
+  border: 1px solid var(--arm-gold);
+  color: var(--arm-gold-dark);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.arm-chip:hover {
+  background: var(--arm-gold);
+  color: #ffffff;
+}
+
+.arm-chat-input-row {
+  display: flex;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-top: 1px solid var(--arm-border);
+  gap: 10px;
+}
+
+.arm-chat-input {
+  flex: 1;
+  border: 1.5px solid var(--arm-border);
+  border-radius: 24px;
+  padding: 10px 18px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.arm-chat-input:focus {
+  border-color: var(--arm-gold);
+}
+
+.arm-chat-send {
+  background: var(--arm-gold);
+  border: none;
+  color: #ffffff;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.arm-chat-send:hover {
+  background: var(--arm-gold-dark);
+  transform: scale(1.05);
+}
+
+/* Modal Footer */
+.arm-footer {
+  padding: 16px 28px;
+  background: #ffffff;
+  border-top: 1px solid var(--arm-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.arm-disclaimer {
+  font-size: 0.72rem;
+  color: var(--arm-muted);
+  max-width: 600px;
+  line-height: 1.4;
+}
+
+.arm-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.arm-btn-secondary {
+  background: #ffffff;
+  border: 1.5px solid var(--arm-border);
+  color: var(--arm-text);
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.arm-btn-secondary:hover {
+  border-color: var(--arm-gold);
+  color: var(--arm-gold-dark);
+}
+
+.arm-btn-primary {
+  background: linear-gradient(135deg, #c49a2a 0%, #8b6914 100%);
+  border: none;
+  color: #ffffff;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 3px 10px rgba(196, 154, 42, 0.3);
+  transition: transform 0.15s, opacity 0.2s;
+}
+
+.arm-btn-primary:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .arm-plan-grid { grid-template-columns: 1fr; }
+  .arm-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .arm-header-actions { width: 100%; justify-content: space-between; }
+  .arm-footer { flex-direction: column; align-items: stretch; text-align: center; }
+  .arm-footer-actions { justify-content: center; }
+}
